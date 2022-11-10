@@ -7,8 +7,7 @@
         table.integer('id_tipo_restricao').primary()
         table.text('nm_tipo_restricao')
 
-        table.timestamp('created_at').defaultTo(knex.fn.now())
-        table.timestamp('updated_at').defaultTo(knex.fn.now())
+        
     })
   
 };

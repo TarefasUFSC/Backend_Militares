@@ -6,11 +6,9 @@
 module.exports = {
 
   development: {
-    client: 'pg',
+    client: 'sqlite3',
     connection: {
-      filename: 'militares_db',
-      user: "postgres",
-      password: "8291",
+      filename: './src/database/militares_db.sqlite'
 
     },
     migrations: {
@@ -19,6 +17,8 @@ module.exports = {
     seeds:{
       directoy: './src/database/seeds'
     },
+    
+    useNullAsDefault: true
   },
 
   staging: {

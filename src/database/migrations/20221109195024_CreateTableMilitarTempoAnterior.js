@@ -9,8 +9,7 @@
         table.integer('id_tipo_tempo')
         table.integer('tempo_dias')
 
-        table.timestamp('created_at').defaultTo(knex.fn.now())
-        table.timestamp('updated_at').defaultTo(knex.fn.now())
+        
     })
   
 };

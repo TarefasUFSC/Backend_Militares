@@ -8,8 +8,7 @@
         table.integer('id_idioma')
         table.integer('matricula_militar')
 
-        table.timestamp('created_at').defaultTo(knex.fn.now())
-        table.timestamp('updated_at').defaultTo(knex.fn.now())
+        
     })
   
 };

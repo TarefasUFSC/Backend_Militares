@@ -3,14 +3,13 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex) {
-    return knex.schema.createTable('militarrestricao', function(table){
+    return knex.schema.createTable('Comportamento', function(table){
         table.integer('id_comportamento').notNullable()
-             .text('nm_comportamento')
-             .integer('rank_comportamento')
+        table.text('nm_comportamento')
+        table.integer('rank_comportamento')
 
 
-        table.timestamp('created_at').defaultTo(knex.fn.now())
-        table.timestamp('updated_at').defaultTo(knex.fn.now())
+        
     })
   
 };
@@ -21,6 +20,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('militarrestricao')
+    return knex.schema.dropTable('Comportamento')
   
 };
