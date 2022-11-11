@@ -3,6 +3,7 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+const path = require('path')
 module.exports = {
 
   development: {
@@ -15,7 +16,7 @@ module.exports = {
       directory: './src/database/migrations'      
     },
     seeds:{
-      directoy: './src/database/seeds'
+      directory: path.join(__dirname, 'src/database/seeds')
     },
     
     useNullAsDefault: true
