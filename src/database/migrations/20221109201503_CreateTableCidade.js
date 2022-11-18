@@ -21,6 +21,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('cidade')
+    return knex.schema.dropTableIfExists('cidade')
   
 };

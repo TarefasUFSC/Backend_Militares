@@ -19,6 +19,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('tipoafastamento')
+    return knex.schema.dropTableIfExists('tipoafastamento')
   
 };

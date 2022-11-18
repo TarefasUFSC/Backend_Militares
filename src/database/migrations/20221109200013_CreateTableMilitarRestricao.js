@@ -22,6 +22,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('militarrestricao')
+    return knex.schema.dropTableIfExists('militarrestricao')
   
 };

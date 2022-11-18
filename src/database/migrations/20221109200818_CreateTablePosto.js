@@ -20,6 +20,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('Posto')
+    return knex.schema.dropTableIfExists('Posto')
   
 };

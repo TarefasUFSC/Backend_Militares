@@ -17,6 +17,6 @@
  * @returns { Promise<void> }
  */
  exports.down = function(knex) {
-    return knex.schema.dropTable('TipoTempoAnterior');
+    return knex.schema.dropTableIfExists('TipoTempoAnterior');
   
 };

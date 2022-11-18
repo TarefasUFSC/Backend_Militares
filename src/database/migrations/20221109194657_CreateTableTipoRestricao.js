@@ -18,6 +18,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('tipo_restricao')
+    return knex.schema.dropTableIfExists('tipo_restricao')
   
 };

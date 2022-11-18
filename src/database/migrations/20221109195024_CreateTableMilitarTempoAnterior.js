@@ -20,6 +20,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('militartempoanterior')
+    return knex.schema.dropTableIfExists('militartempoanterior')
   
 };

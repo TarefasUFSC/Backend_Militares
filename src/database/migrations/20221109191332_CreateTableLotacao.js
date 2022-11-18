@@ -23,6 +23,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('lotacao')
+    return knex.schema.dropTableIfExists('lotacao')
   
 };

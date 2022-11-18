@@ -19,6 +19,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('MilitarCurso')
+    return knex.schema.dropTableIfExists('MilitarCurso')
   
 };

@@ -18,6 +18,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('idioma')
+    return knex.schema.dropTableIfExists('idioma')
   
 };

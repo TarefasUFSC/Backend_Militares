@@ -19,6 +19,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTable('MilitarIdioma')
+    return knex.schema.dropTableIfExists('MilitarIdioma')
   
 };
