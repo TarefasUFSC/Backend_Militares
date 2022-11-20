@@ -1,7 +1,9 @@
-const connection = require("../../database/connection");
+const connection = require("../database/connection");
 module.exports = {
 
     async getMilitaresAposentados(req, res) {
+        // os calculos de aposentadoria são feitos quando se adiciona ou altera um militar, então aqui só precisa fazer a busca consderando que isso ja foi feito em outro lugar
+
         // os filtros são passados pela query
         // os filtros são: nome, localidade, cidade, batalhão, magem inferior da aposentadoria, magem superior da aposentadoria
         const { nome, localidade, cidade, batalhao, dt_aposentadoria_inf, dt_aposentadoria_sup } = req.query;
