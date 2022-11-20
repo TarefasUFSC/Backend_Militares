@@ -1,6 +1,6 @@
 exports.seed = function(knex) {
     // Deletes ALL existing entries
-    return knex('TipoTempoAnterior').del()/*
+    return knex('TipoTempoAnterior').del()
       .then(function () {
         // Inserts seed entries
         return knex('TipoTempoAnterior').insert([
@@ -9,5 +9,5 @@ exports.seed = function(knex) {
             {id_tipo_tempo: 2, nm_tipo_tempo: 'Público Outros', is_militar: false},     
             {id_tipo_tempo: 3, nm_tipo_tempo: 'Militar', is_militar: true},     
         ]);
-      });*/
+      });
   };
