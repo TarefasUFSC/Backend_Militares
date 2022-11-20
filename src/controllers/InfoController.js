@@ -1,4 +1,4 @@
-
+const connection = require("../../database/connection");
 module.exports = {
 
     async getResumo(req, res) {
