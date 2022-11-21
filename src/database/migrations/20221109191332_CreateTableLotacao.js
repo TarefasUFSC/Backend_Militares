@@ -10,7 +10,7 @@
         table.integer('id_companhia').notNullable()
         table.integer('id_pelotao').notNullable()
         table.integer('id_grupo').notNullable()
-        table.integer('id_cidade').notNullable()
+        table.integer('id_cidade').notNullable().references('id_cidade').inTable('Cidade')
         
         
     })

@@ -5,7 +5,7 @@
  exports.up = function(knex) {
     return knex.schema.createTable('Curso', function(table){
         table.integer('id_curso').primary().notNullable()
-        table.text('nm_curso')
+        table.string('nm_curso')
         table.integer('id_tipo_curso').notNullable()
 
 

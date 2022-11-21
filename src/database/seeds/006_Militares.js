@@ -11,7 +11,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 01).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 01).getTime() / 1000),
           licencas_esp_acc: 6, comportamento: 1,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 01).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 01).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2002,07,06).getTime()/1000)
         },
 
         {
@@ -20,7 +21,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1980, 01, 02).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: 2,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 02).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 02).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,07).getTime()/1000)
         },
 
         {
@@ -29,7 +31,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 03).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: 3,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 03).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 03).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2023,03,19).getTime()/1000)
         },
 
         {
@@ -38,7 +41,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 04).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: 5, comportamento: 4,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 04).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 04).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,09).getTime()/1000)
         },
 
         {
@@ -47,7 +51,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 05).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 05).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 05).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,11).getTime()/1000)
         },
 
         {
@@ -56,7 +61,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 06).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 06).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 06).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2024,05,11).getTime()/1000)
         },
 
         {
@@ -65,7 +71,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 07).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: 1,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 07).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 07).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,13).getTime()/1000)
         },
 
         {
@@ -74,7 +81,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 08).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: 1, comportamento: 2,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 08).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 08).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2022,11,20).getTime()/1000)
         },
 
         {
@@ -83,7 +91,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 09).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 09).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 09).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,15).getTime()/1000)
         },
 
         {
@@ -92,7 +101,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 10).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 10).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 10).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,16).getTime()/1000)
         },
 
         {
@@ -101,7 +111,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 11).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: 3, comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 11).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 11).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,18).getTime()/1000)
         },
 
         {
@@ -110,7 +121,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 12).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 12).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 12).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,19).getTime()/1000)
         },
 
         {
@@ -119,7 +131,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 13).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 13).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 13).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,20).getTime()/1000)
         },
 
         {
@@ -128,7 +141,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 14).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: 1,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 14).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 14).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,21).getTime()/1000)
         },
 
         {
@@ -137,7 +151,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 15).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: 2,
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 15).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 15).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,22).getTime()/1000)
         },
 
         {
@@ -146,7 +161,8 @@ exports.seed = function (knex) {
           dt_ingresso: parseInt(new Date(1990, 01, 16).getTime() / 1000), dt_nascimento: parseInt(new Date(1980, 01, 02).getTime() / 1000),
           licencas_esp_acc: '', comportamento: '',
           endereco: 'Avenida Engenheiro Mesquita, 586, Centro, Araranguá/SC',
-          ferias: parseInt(new Date(2022, 01, 16).getTime() / 1000)
+          ferias: parseInt(new Date(2022, 01, 16).getTime() / 1000),
+          dt_aposentadoria: parseInt(new Date(2025,07,23).getTime()/1000)
         }
 
       ]);

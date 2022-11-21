@@ -6,7 +6,7 @@
     return knex.schema.createTable('Posto', function(table){
         table.integer('id_posto').primary().notNullable()
         table.integer('rank_posto').notNullable()
-        table.text('nm_posto')
+        table.string('nm_posto')
 
 
         

@@ -5,7 +5,7 @@
  exports.up = function(knex) {
     return knex.schema.createTable('tipoafastamento', function(table){
         table.integer('id_tipo_afastamento').notNullable()
-        table.text('nm_tipo_afastamento').notNullable()
+        table.string('nm_tipo_afastamento').notNullable()
 
 
         
