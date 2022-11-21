@@ -6,7 +6,7 @@
     return knex.schema.createTable('MilitarIdioma', function(table){
         table.integer('id_militar_idioma').primary()
         table.integer('id_idioma').references('id_idioma').inTable('Idioma')
-        table.integer('matricula_militar')
+        table.integer('matricula_militar').references('matricula').inTable('militares').notNullable()
 
         
     })
