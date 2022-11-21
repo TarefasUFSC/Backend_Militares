@@ -4,7 +4,7 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('TipoRestricao', function(table){
-        table.integer('id_tipo_restricao').primary()
+        table.increments('id_tipo_restricao').primary()
         table.string('nm_tipo_restricao')
 
         

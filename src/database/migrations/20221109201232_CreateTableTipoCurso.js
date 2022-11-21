@@ -4,7 +4,7 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('TipoCurso', function(table){
-        table.integer('id_tipo_curso').primary().notNullable()
+        table.increments('id_tipo_curso').primary().notNullable()
         table.integer('nm_tipo_curso')
 
 

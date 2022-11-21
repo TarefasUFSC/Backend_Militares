@@ -4,7 +4,7 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('Idioma', function(table){
-        table.integer('id_idioma').primary()
+        table.increments('id_idioma').primary()
         table.string('nm_idioma')
 
         

@@ -5,7 +5,7 @@
  exports.up = function(knex) {
     return knex.schema.createTable('TipoTempoAnterior', function(table){
 
-        table.integer('id_tipo_tempo').primary()
+        table.increments('id_tipo_tempo').primary()
         table.string('nm_tipo_tempo')
         table.boolean('is_militar')
     })

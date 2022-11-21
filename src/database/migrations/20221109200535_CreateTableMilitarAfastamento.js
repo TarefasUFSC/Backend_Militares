@@ -4,7 +4,7 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('MilitarAfastamento', function(table){
-        table.integer('id_militar_afastamento').primary().notNullable()
+        table.increments('id_militar_afastamento').primary().notNullable()
         table.integer('matricula_militar').notNullable().references('matricula_militar').inTable('Militar')
         table.integer('id_tipo_afastamento').notNullable().references('id_tipo_afastamento').inTable('TipoAfastamento')
         table.timestamp('dt_inicio')
