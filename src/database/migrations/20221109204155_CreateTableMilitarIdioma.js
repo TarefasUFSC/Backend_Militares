@@ -5,7 +5,7 @@
  exports.up = function(knex) {
     return knex.schema.createTable('MilitarIdioma', function(table){
         table.integer('id_militar_idioma').primary()
-        table.integer('id_idioma')
+        table.integer('id_idioma').references('id_idioma').inTable('Idioma')
         table.integer('matricula_militar')
 
         
