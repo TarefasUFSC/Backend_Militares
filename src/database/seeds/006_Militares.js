@@ -3,6 +3,7 @@ exports.seed = function (knex) {
   return knex('Militares').del()
     .then(function () {
       // Inserts seed entries
+      // tem q adionar a data de aposentadoria de cada um (teoricamente eles foram adicionados e o sistema calculou nessa hr)
       return knex('Militares').insert([
         {
           matricula: 900001, nome: 'Joaquim Alves da Silva Xavier',

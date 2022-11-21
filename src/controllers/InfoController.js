@@ -16,7 +16,7 @@ async function get_rank_data(){
     // grupo por posto
     // conta quantas pessoas de cada posto existem na tabela militares
 
-    const militares = await connection('militares').count('posto as qtd').groupBy('posto').select('posto');
+    const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto').count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
     return militares;
 }
 
