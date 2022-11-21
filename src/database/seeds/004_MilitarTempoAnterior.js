@@ -1,9 +1,9 @@
 exports.seed = function(knex) {
     // Deletes ALL existing entries
-    return knex('MilitarTempoAterior').del()
+    return knex('MilitarTempoAnterior').del()
       .then(function () {
         // Inserts seed entries
-        return knex('MilitarTempoAterior').insert([
+        return knex('MilitarTempoAnterior').insert([
             {id_militar_tempo_anterior: 0, matricula_militar: '900001', id_tipo_tempo: 0, tempo_dias: 0},     
             {id_militar_tempo_anterior: 1, matricula_militar: '900002', id_tipo_tempo: 1, tempo_dias: 0},     
             {id_militar_tempo_anterior: 2, matricula_militar: '900003', id_tipo_tempo: 2, tempo_dias: 720},     

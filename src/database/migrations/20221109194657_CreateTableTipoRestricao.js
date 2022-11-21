@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex) {
-    return knex.schema.createTable('tipo_restricao', function(table){
+    return knex.schema.createTable('TipoRestricao', function(table){
         table.integer('id_tipo_restricao').primary()
         table.text('nm_tipo_restricao')
 
@@ -18,6 +18,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTableIfExists('tipo_restricao')
+    return knex.schema.dropTableIfExists('TipoRestricao')
   
 };
