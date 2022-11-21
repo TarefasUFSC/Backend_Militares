@@ -3,12 +3,11 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex) {
-    return knex.schema.createTable('militarrestricao', function(table){
+    return knex.schema.createTable('MilitarRestricao', function(table){
         table.integer('id_militar_restricao').primary().notNullable()
-        table.integer('matricula_militar').notNullable()
-        table.integer('id_tipo_restricao').notNullable()
-        table.timestamp('dt_inicio')
-        table.timestamp('dt_fim')
+        table.integer('matricula_militar').notNullable().references('matricula_militar').inTable('Militar')
+        table.integer('id_tipo_restricao').notNullable().references('id_tipo_restricao').inTable('TipoRestricao')
+        table.timestamp('dt_fim').notNullable()
 
 
         
@@ -22,6 +21,6 @@
  */
 exports.down = function(knex) {
 
-    return knex.schema.dropTableIfExists('militarrestricao')
+    return knex.schema.dropTableIfExists('MilitarRestricao')
   
 };

@@ -115,11 +115,25 @@ async function get_language_data(){
 }
 
 async function get_away_data(){
-    return null;
+    // conta quantas pessoas estão fora de serviço
+    // join com a tabela militarafastamento
+    // join com a tabela tipoafastamento
+    // conta quantas pessoas de cada tipo de afastamento existem na tabela militarafastamento
+    // grupo por tipo de afastamento
+
+    const militares = await connection('militares').join('militarafastamento', 'militares.matricula', '=', 'militarafastamento.matricula_militar').join('TipoAfastamento', 'militarafastamento.id_tipo_afastamento', '=', 'TipoAfastamento.id_tipo_afastamento').count('TipoAfastamento.nm_tipo_afastamento as qtd').groupBy('TipoAfastamento.nm_tipo_afastamento').select('TipoAfastamento.nm_tipo_afastamento');
+    return militares;
 }
 
 async function get_restrictions_data(){
-    return null;
+    // conta quantas pessoas estão com restrição
+    // join com a tabela MilitarRestricao
+    // join com a tabela tiporestricao
+    // conta quantas pessoas de cada tipo de restrição existem na tabela MilitarRestricao
+    // grupo por tipo de restrição
+
+    const militares = await connection('militares').join('MilitarRestricao', 'militares.matricula', '=', 'MilitarRestricao.matricula_militar').join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao').count('TipoRestricao.nm_tipo_restricao as qtd').groupBy('TipoRestricao.nm_tipo_restricao').select('TipoRestricao.nm_tipo_restricao');
+    return militares;
 }
 
 
