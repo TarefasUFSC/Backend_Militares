@@ -42,7 +42,12 @@ exports.seed = function(knex) {
             {id_cidade: 35,nm_cidade:"Braço do Norte", lat_cidade: 0, lng_cidade:0 },
             {id_cidade: 36,nm_cidade:"Dionísio Cerqueira", lat_cidade: 0, lng_cidade:0 },
             {id_cidade: 37,nm_cidade:"Santo Amaro da Imperatriz", lat_cidade: 0, lng_cidade:0 },
-            {id_cidade: 38,nm_cidade:"Mafra", lat_cidade: 0, lng_cidade:0 }
+            {id_cidade: 38,nm_cidade:"Mafra", lat_cidade: 0, lng_cidade:0 },
+            {id_cidade: 39,nm_cidade:"Turvo", lat_cidade: 0, lng_cidade:0 },
+            {id_cidade: 40,nm_cidade:"Meleiro", lat_cidade: 0, lng_cidade:0 },
+            {id_cidade: 41,nm_cidade:"Sombrio", lat_cidade: 0, lng_cidade:0 },
+            {id_cidade: 42,nm_cidade:"Passo de Torres", lat_cidade: 0, lng_cidade:0 },
+            {id_cidade: 43,nm_cidade:"Arroio do Silva", lat_cidade: 0, lng_cidade:0 },
         ]);
       });
   };
