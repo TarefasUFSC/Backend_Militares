@@ -13,7 +13,7 @@ exports.up = function(knex) {
         table.timestamp('dt_ingresso')
         table.timestamp('dt_nascimento')
         table.integer('licencas_esp_acc')
-        table.integer('comportamento')
+        table.integer('id_comportamento').references('id_comportamento').inTable('comportamento')
         table.string('endereco').notNullable()
         table.timestamp('ferias')
         table.text("img_perfil")
