@@ -3,10 +3,12 @@ module.exports = {
 
     async getMilitaresAposentados(req, res) {
         // os calculos de aposentadoria são feitos quando se adiciona ou altera um militar, então aqui só precisa fazer a busca consderando que isso ja foi feito em outro lugar
-
+        
         // os filtros são passados pela query
         // os filtros são: nome, localidade, cidade, batalhão, magem inferior da aposentadoria, magem superior da aposentadoria
-        let { nome, localidade, id_cidade, id_batalhao, dt_aposentadoria_inf, dt_aposentadoria_sup } = req.query;
+        let { nome, localidade, id_cidade, id_batalhao, dt_aposentadoria_inf, dt_aposentadoria_sup, pagina, qtd } = req.query;
+        //localidade é a cidade de residencia, mas acho que não vamos usar
+
         // o filtro de nome é feito com o operador LIKE do SQL
         // o filtro de data é feito com o operador BETWEEN do SQL
         // não sei como funciona o localicdade
@@ -44,6 +46,7 @@ module.exports = {
             if (rows.length == 0) {
                 return res.status(404).json({ msg: "Nenhum militar encontrado" });
             }
+            //tem que retornar a quantidade total tb
             return res.json({ militares: rows });
         })
 
