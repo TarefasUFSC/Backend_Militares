@@ -62,7 +62,12 @@ module.exports = {
     },
     async getMilitarByMatricula(req, res) {
         const { matricula } = req.params;
-        return res.json({ msg: "Militar com a matricula: " + matricula });
+        const militar = await connection('Militares').select('*').where('militares.matricula', '=', matricula)
+
+        if (militar.length == 0) {
+            return res.status(404).json({ msg: "Nenhum militar encontrado" });
+        }
+        return res.json({militar:militar});
     }
 
 
