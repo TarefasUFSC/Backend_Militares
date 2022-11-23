@@ -17,7 +17,11 @@ async function get_rank_data() {
     // conta quantas pessoas de cada posto existem na tabela militares
 
     const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto')
+<<<<<<< HEAD
         .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
+=======
+    .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
+>>>>>>> main
     return militares;
 }
 
@@ -28,8 +32,13 @@ async function get_city_data() {
     // conta quantas pessoas de cada sexo existem na tabela 
 
     const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
+<<<<<<< HEAD
         .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
         .select('Cidade.nm_cidade');
+=======
+    .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
+    .select('Cidade.nm_cidade');
+>>>>>>> main
     return militares;
 }
 
@@ -77,7 +86,11 @@ async function get_behavior_data() {
 
 
     const militares = await connection('militares').join('comportamento', 'militares.id_comportamento', '=', 'comportamento.id_comportamento')
+<<<<<<< HEAD
         .count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
+=======
+    .count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
+>>>>>>> main
     return militares;
 }
 
@@ -90,8 +103,13 @@ async function get_formation_data() {
     // grupo por curso
 
     const militares = await connection('militares').join('militarcurso', 'militares.matricula', '=', 'militarcurso.matricula_militar')
+<<<<<<< HEAD
         .join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
         .count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
+=======
+    .join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
+    .count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
+>>>>>>> main
     // para cada tipo de curso creia uma chave em um objeto, que será o retorno com a subdivisão de cada curso
     var obj = {};
     for (var i = 0; i < militares.length; i++) {
@@ -145,6 +163,7 @@ async function get_restrictions_data() {
         .select('TipoRestricao.nm_tipo_restricao');
     return militares;
 }
+
 
 
 module.exports = {
