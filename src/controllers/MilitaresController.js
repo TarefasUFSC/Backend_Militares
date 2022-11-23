@@ -1,4 +1,4 @@
-const { Connection } = require("pg");
+
 const connection = require("../database/connection");
 module.exports = {
 
