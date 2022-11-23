@@ -16,7 +16,8 @@ async function get_rank_data() {
     // grupo por posto
     // conta quantas pessoas de cada posto existem na tabela militares
 
-    const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto').count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
+    const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto')
+        .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
     return militares;
 }
 
@@ -26,7 +27,9 @@ async function get_city_data() {
     // grupo por cidade
     // conta quantas pessoas de cada sexo existem na tabela 
 
-    const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao').join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade').select('Cidade.nm_cidade');
+    const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
+        .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
+        .select('Cidade.nm_cidade');
     return militares;
 }
 
@@ -73,7 +76,8 @@ async function get_behavior_data() {
     // join com a tabela comportamento
 
 
-    const militares = await connection('militares').join('comportamento', 'militares.id_comportamento', '=', 'comportamento.id_comportamento').count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
+    const militares = await connection('militares').join('comportamento', 'militares.id_comportamento', '=', 'comportamento.id_comportamento')
+        .count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
     return militares;
 }
 
@@ -85,7 +89,9 @@ async function get_formation_data() {
     // conta quantas pessoas de cada curso existem na tabela militarcurso
     // grupo por curso
 
-    const militares = await connection('militares').join('militarcurso', 'militares.matricula', '=', 'militarcurso.matricula_militar').join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso').count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
+    const militares = await connection('militares').join('militarcurso', 'militares.matricula', '=', 'militarcurso.matricula_militar')
+        .join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
+        .count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
     // para cada tipo de curso creia uma chave em um objeto, que será o retorno com a subdivisão de cada curso
     var obj = {};
     for (var i = 0; i < militares.length; i++) {
@@ -133,10 +139,12 @@ async function get_restrictions_data() {
     // conta quantas pessoas de cada tipo de restrição existem na tabela MilitarRestricao
     // grupo por tipo de restrição
 
-    const militares = await connection('militares').join('MilitarRestricao', 'militares.matricula', '=', 'MilitarRestricao.matricula_militar').join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao').count('TipoRestricao.nm_tipo_restricao as qtd').groupBy('TipoRestricao.nm_tipo_restricao').select('TipoRestricao.nm_tipo_restricao');
+    const militares = await connection('militares').join('MilitarRestricao', 'militares.matricula', '=', 'MilitarRestricao.matricula_militar')
+        .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
+        .count('TipoRestricao.nm_tipo_restricao as qtd').groupBy('TipoRestricao.nm_tipo_restricao')
+        .select('TipoRestricao.nm_tipo_restricao');
     return militares;
 }
-
 
 
 module.exports = {
@@ -186,31 +194,38 @@ module.exports = {
         const { cursos_lista } = req.body;
         const { secret_access_token } = req.headers;
 
-        if(cursos_lista == undefined || cursos_lista.length == 0){
+        if (cursos_lista == undefined || cursos_lista.length == 0) {
             return res.status(400).json({ msg: 'Lista de cursos vazia' });
         }
 
         const listaBuscaCursos = cursos_lista.map(curso => curso.nm_curso);
         const cursos = await connection('Curso').select("*").whereIn('nm_curso', listaBuscaCursos);
-        if(cursos.length > 0){
+        if (cursos.length > 0) {
             return res.status(400).json({ msg: 'Um ou mais cursos já existem na base de dados' });
         }
-        
+
         const cursosLista = cursos_lista.map(curso =>
             ({ nm_curso: curso.nm_curso, id_tipo_curso: curso.id_tipo_curso }));
         const novosCursos = await connection('Curso').insert(cursosLista);
-        if(novosCursos == undefined || novosCursos.length == 0){
+        if (novosCursos == undefined || novosCursos.length == 0) {
             return res.status(500).json({ msg: 'Erro ao adicionar cursos' });
         }
         console.log(novosCursos);
         return res.json({ novosCursos });
     },
     async getCursos(req, res) {
-        return res.json({ msg: "Resumo" });
+        const cursos = await connection('Curso')
+        .join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
+        .select('Curso.nm_curso');
+        return res.json({ cursos:cursos });
     },
     async getLinguas(req, res) {
-        return res.json({ msg: "Resumo" });
+        const linguas = await connection('Idioma')
+            .select('Idioma.nm_idioma');
+        return res.json({ idiomas:linguas });
     }
+
+
 
 
 }

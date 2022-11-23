@@ -4,13 +4,12 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('MilitarCurso', function(table){
-        table.integer('id_curso_militar').notNullable()
-        table.integer('matricula_militar').references('matricula').inTable('militares').notNullable()
-        table.integer('id_curso').notNullable().references('id_curso').inTable('Curso').notNullable()
-
-        
-    })
-  
+        table.integer('id_curso_militar').notNullable();
+        table.integer('matricula_militar').unsigned();
+        table.foreign('matricula_militar').references('matricula').inTable('Militares').onDelete('CASCADE');
+        table.integer('id_curso').unsigned();
+        table.foreign('id_curso').references('id_curso').inTable('Curso').onDelete('CASCADE');
+    });
 };
 
 /**
@@ -18,7 +17,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('MilitarCurso')
-  
+    return knex.schema.dropTableIfExists('MilitarCurso');
 };

@@ -4,14 +4,10 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('Comportamento', function(table){
-        table.integer('id_comportamento').notNullable()
-        table.string('nm_comportamento')
-        table.integer('rank_comportamento')
-
-
-        
-    })
-  
+        table.increments('id_comportamento').primary().notNullable();
+        table.string('nm_comportamento');
+        table.integer('rank_comportamento'); 
+    });
 };
 
 /**
@@ -19,7 +15,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('Comportamento')
-  
+    return knex.schema.dropTableIfExists('Comportamento');
 };
