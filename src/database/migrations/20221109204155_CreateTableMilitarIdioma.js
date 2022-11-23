@@ -4,13 +4,10 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('MilitarIdioma', function(table){
-        table.increments('id_militar_idioma').primary()
-        table.integer('id_idioma')
-        table.integer('matricula_militar')
-
-        
-    })
-  
+        table.increments('id_militar_idioma').primary();
+        table.integer('id_idioma');
+        table.integer('matricula_militar');
+    });
 };
 
 /**
@@ -18,7 +15,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('MilitarIdioma')
-  
+    return knex.schema.dropTableIfExists('MilitarIdioma');
 };

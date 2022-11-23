@@ -4,13 +4,9 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('TipoAfastamento', function(table){
-        table.integer('id_tipo_afastamento').notNullable()
-        table.string('nm_tipo_afastamento').notNullable()
-
-
-        
-    })
-  
+        table.integer('id_tipo_afastamento').primary().notNullable();
+        table.string('nm_tipo_afastamento').notNullable();  
+    });
 };
 
 /**
@@ -18,7 +14,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('TipoAfastamento')
-  
+    return knex.schema.dropTableIfExists('TipoAfastamento');
 };

@@ -4,12 +4,9 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('TipoRestricao', function(table){
-        table.increments('id_tipo_restricao').primary()
-        table.string('nm_tipo_restricao')
-
-        
-    })
-  
+        table.increments('id_tipo_restricao').primary();
+        table.string('nm_tipo_restricao');
+    });
 };
 
 /**
@@ -17,7 +14,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('TipoRestricao')
-  
+    return knex.schema.dropTableIfExists('TipoRestricao');
 };

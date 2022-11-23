@@ -4,12 +4,10 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('TipoTempoAnterior', function(table){
-
-        table.increments('id_tipo_tempo').primary()
-        table.string('nm_tipo_tempo')
-        table.boolean('is_militar')
-    })
-  
+        table.increments('id_tipo_tempo').primary();
+        table.string('nm_tipo_tempo');
+        table.boolean('is_militar');
+    });
 };
 
 /**
@@ -18,5 +16,4 @@
  */
  exports.down = function(knex) {
     return knex.schema.dropTableIfExists('TipoTempoAnterior');
-  
 };

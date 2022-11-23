@@ -1,9 +1,9 @@
 exports.seed = function(knex) {
     // Deletes ALL existing entries
-    return knex('Lotacao').del()
+    return knex('lotacao').del()
       .then(function () {
     //     // Inserts seed entries
-        return knex('Lotacao').insert([
+        return knex('lotacao').insert([
           {id_lotacao: 1, id_regiao: 1, id_batalhao: 1, id_companhia: 1, id_pelotao: 1,id_grupo: 1, id_cidade: 19},
           {id_lotacao: 2, id_regiao: 2, id_batalhao: 2, id_companhia: 2, id_pelotao: 2,id_grupo: 2, id_cidade: 39},
           {id_lotacao: 3, id_regiao: 3, id_batalhao: 3, id_companhia: 3, id_pelotao: 3,id_grupo: 3, id_cidade: 40},

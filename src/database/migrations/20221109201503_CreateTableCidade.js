@@ -4,15 +4,11 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('Cidade', function(table){
-        table.increments('id_cidade').primary().notNullable()
-        table.string('nm_cidade').notNullable()
-        table.float('lat_cidade').notNullable()
-        table.float('lng_cidade').notNullable()
-
-
-        
-    })
-  
+        table.increments('id_cidade').primary().notNullable();
+        table.string('nm_cidade').notNullable();
+        table.float('lat_cidade').notNullable();
+        table.float('lng_cidade').notNullable();
+    });
 };
 
 /**
@@ -20,7 +16,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('Cidade')
-  
+    return knex.schema.dropTableIfExists('Cidade');
 };

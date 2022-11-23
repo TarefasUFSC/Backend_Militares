@@ -4,12 +4,9 @@
  */
  exports.up = function(knex) {
     return knex.schema.createTable('Idioma', function(table){
-        table.increments('id_idioma').primary()
-        table.string('nm_idioma')
-
-        
-    })
-  
+        table.increments('id_idioma').primary();
+        table.string('nm_idioma'); 
+    });
 };
 
 /**
@@ -17,7 +14,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-
-    return knex.schema.dropTableIfExists('idioma')
-  
+    return knex.schema.dropTableIfExists('Idioma');
 };
