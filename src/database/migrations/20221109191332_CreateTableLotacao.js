@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
  exports.up = function(knex) {
-    return knex.schema.createTable('lotacao', function(table){
+    return knex.schema.createTable('Lotacao', function(table){
         table.increments('id_lotacao').primary().notNullable();
         table.integer('id_regiao').notNullable();
         table.integer('id_batalhao').notNullable();
@@ -20,5 +20,5 @@
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('lotacao');
+    return knex.schema.dropTableIfExists('Lotacao');
 };

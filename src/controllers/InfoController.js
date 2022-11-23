@@ -17,7 +17,11 @@ async function get_rank_data() {
     // conta quantas pessoas de cada posto existem na tabela militares
 
     const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto')
+<<<<<<< HEAD
+        .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
+=======
     .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
+>>>>>>> main
     return militares;
 }
 
@@ -28,8 +32,13 @@ async function get_city_data() {
     // conta quantas pessoas de cada sexo existem na tabela 
 
     const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
+<<<<<<< HEAD
+        .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
+        .select('Cidade.nm_cidade');
+=======
     .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
     .select('Cidade.nm_cidade');
+>>>>>>> main
     return militares;
 }
 
@@ -77,7 +86,11 @@ async function get_behavior_data() {
 
 
     const militares = await connection('militares').join('comportamento', 'militares.id_comportamento', '=', 'comportamento.id_comportamento')
+<<<<<<< HEAD
+        .count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
+=======
     .count('comportamento.nm_comportamento as qtd').groupBy('comportamento.nm_comportamento').select('comportamento.nm_comportamento');
+>>>>>>> main
     return militares;
 }
 
@@ -90,8 +103,13 @@ async function get_formation_data() {
     // grupo por curso
 
     const militares = await connection('militares').join('militarcurso', 'militares.matricula', '=', 'militarcurso.matricula_militar')
+<<<<<<< HEAD
+        .join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
+        .count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
+=======
     .join('Curso', "Curso.id_curso", "=", "militarcurso.id_curso").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
     .count('Curso.nm_curso as qtd').groupBy('Curso.nm_curso').select('Curso.nm_curso', "TipoCurso.nm_tipo_curso");
+>>>>>>> main
     // para cada tipo de curso creia uma chave em um objeto, que será o retorno com a subdivisão de cada curso
     var obj = {};
     for (var i = 0; i < militares.length; i++) {
@@ -140,25 +158,12 @@ async function get_restrictions_data() {
     // grupo por tipo de restrição
 
     const militares = await connection('militares').join('MilitarRestricao', 'militares.matricula', '=', 'MilitarRestricao.matricula_militar')
-    .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
-    .count('TipoRestricao.nm_tipo_restricao as qtd').groupBy('TipoRestricao.nm_tipo_restricao')
-    .select('TipoRestricao.nm_tipo_restricao');
+        .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
+        .count('TipoRestricao.nm_tipo_restricao as qtd').groupBy('TipoRestricao.nm_tipo_restricao')
+        .select('TipoRestricao.nm_tipo_restricao');
     return militares;
 }
 
-async function get_all_courses() {
-    const cursos = await connection('Curso')
-    .join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
-    .select('Curso.nm_curso');
-    
-    return cursos;
-}
-
-async function get_all_languages(){
-    const linguas = await connection('Idioma')
-    .select('Idioma.nm_idioma');
-    return linguas;
-}
 
 
 module.exports = {
@@ -208,32 +213,35 @@ module.exports = {
         const { cursos_lista } = req.body;
         const { secret_access_token } = req.headers;
 
-        if(cursos_lista == undefined || cursos_lista.length == 0){
+        if (cursos_lista == undefined || cursos_lista.length == 0) {
             return res.status(400).json({ msg: 'Lista de cursos vazia' });
         }
 
         const listaBuscaCursos = cursos_lista.map(curso => curso.nm_curso);
         const cursos = await connection('Curso').select("*").whereIn('nm_curso', listaBuscaCursos);
-        if(cursos.length > 0){
+        if (cursos.length > 0) {
             return res.status(400).json({ msg: 'Um ou mais cursos já existem na base de dados' });
         }
-        
+
         const cursosLista = cursos_lista.map(curso =>
             ({ nm_curso: curso.nm_curso, id_tipo_curso: curso.id_tipo_curso }));
         const novosCursos = await connection('Curso').insert(cursosLista);
-        if(novosCursos == undefined || novosCursos.length == 0){
+        if (novosCursos == undefined || novosCursos.length == 0) {
             return res.status(500).json({ msg: 'Erro ao adicionar cursos' });
         }
         console.log(novosCursos);
         return res.json({ novosCursos });
     },
-    async getCursos(req, res) {       
-        const cursos = await get_all_courses();
-        return res.json({ cursos });
+    async getCursos(req, res) {
+        const cursos = await connection('Curso')
+        .join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
+        .select('Curso.nm_curso');
+        return res.json({ cursos:cursos });
     },
     async getLinguas(req, res) {
-        const linguas = await get_all_languages();
-        return res.json({ linguas });
+        const linguas = await connection('Idioma')
+            .select('Idioma.nm_idioma');
+        return res.json({ idiomas:linguas });
     }
 
 

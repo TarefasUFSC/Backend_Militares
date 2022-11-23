@@ -7,10 +7,11 @@
         table.increments('matricula').primary().unique().notNullable();
         table.string('nome').notNullable();
         table.string('sexo').notNullable();
-        table.integer('posto').unsigned().notNullable();
+        table.integer('posto');
         table.foreign('posto').references('id_posto').inTable('Posto').onDelete('CASCADE');
         table.integer('antiguidade').notNullable();
-        table.integer('lotacao').notNullable();
+        table.integer('id_lotacao').notNullable();
+        table.integer('id_lotacao').notNullable().references('id_lotacao').inTable('Lotacao').onDelete('CASCADE');
         table.timestamp('dt_ingresso');
         table.timestamp('dt_nascimento');
         table.integer('licencas_esp_acc');
