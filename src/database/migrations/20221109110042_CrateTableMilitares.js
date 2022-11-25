@@ -2,8 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
- exports.up = function(knex) {
-    return knex.schema.createTable('Militares', function(table){
+exports.up = function (knex) {
+    return knex.schema.createTable('Militares', function (table) {
         table.increments('matricula').primary().unique().notNullable();
         table.string('nome').notNullable();
         table.string('sexo').notNullable();
@@ -11,7 +11,7 @@
         table.foreign('posto').references('id_posto').inTable('Posto').onDelete('CASCADE');
         table.integer('antiguidade').notNullable();
         table.integer('id_lotacao').notNullable();
-        table.integer('id_lotacao').notNullable().references('id_lotacao').inTable('Lotacao').onDelete('CASCADE');
+        table.foreign('id_lotacao').references('id_lotacao').inTable('Lotacao').onDelete('CASCADE');
         table.timestamp('dt_ingresso');
         table.timestamp('dt_nascimento');
         table.integer('licencas_esp_acc');
@@ -28,6 +28,6 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function(knex) {
+exports.down = function (knex) {
     return knex.schema.dropTableIfExists('Militares');
 };
