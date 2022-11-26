@@ -10,7 +10,7 @@ routes.get("/militares/aposentadoria", MilitaresController.gerAposentadoriaMilit
 routes.get("/militares/:matricula", MilitaresController.getMilitarPorMatricula);
 
 // rotas de Alocação
-routes.get("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
+routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
 
 // rotas de informações gerais do sistema
 routes.get('/info/resumo', InfoController.getResumo);
