@@ -2,13 +2,21 @@
 const connection = require("../database/connection");
 module.exports = {
 
-    async getMilitaresAposentados(req, res) {
+    async gerAposentadoriaMilitares(req, res) {
         // os calculos de aposentadoria são feitos quando se adiciona ou altera um militar, então aqui só precisa fazer a busca consderando que isso ja foi feito em outro lugar
         
         // os filtros são passados pela query
-        // os filtros são: nome, localidade, cidade, batalhão, magem inferior da aposentadoria, magem superior da aposentadoria
-        let { nome, localidade, id_cidade, id_batalhao, dt_aposentadoria_inf, dt_aposentadoria_sup, pagina, qtd } = req.query;
-        //localidade é a cidade de residencia, mas acho que não vamos usar
+        // os filtros são: nome, localidade, cidade, batalhão, magem inferior da aposentadoria, magem superior da aposentadoria, quantidade e página
+        let { nome, id_cidade, id_batalhao, dt_aposentadoria_inf, dt_aposentadoria_sup, pagina, qtd } = req.query;
+        // página é obrigatorio e o valor minimo é 1
+        if(!pagina || pagina < 1) {
+            return res.status(400).json({ msg: "Página inválida" });
+        }
+        // qtd é obrigatorio e o valor minimo é 10
+        if(!qtd || qtd < 10) {
+            return res.status(400).json({ msg: "Quantidade inválida" });
+        }
+
 
         // o filtro de nome é feito com o operador LIKE do SQL
         // o filtro de data é feito com o operador BETWEEN do SQL
@@ -19,17 +27,16 @@ module.exports = {
         // os parametros podem estar vazios, sto deve ser considerado
 
         const militares = connection('Militares')
-            .join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
-            .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
+            .join("Cidade", "Lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .leftOuterJoin("Batalhao", "Lotacao.id_batalhao", "=", "Batalhao.id_batalhao")
             .select('*')
-        //.join("Batalhao", "lotacao.id_batalhao", "=", "Batalhao.id_batalhao")
+            .limit(qtd)
+            .offset((pagina - 1) * qtd);
 
         if (nome) {
-            militares.where('militares.nm_militar', 'like', `%${nome}%`);
+            militares.where('Militares.nm_militar', 'like', `%${nome}%`);
         }
-        // if (localidade) {
-        //     militares.where('militares.localidade', '=', localidade);
-        // }
         if (id_cidade) {
             militares.where('Cidade.id_cidade', '=', id_cidade);
         }
@@ -37,10 +44,10 @@ module.exports = {
             militares.where('Batalhao.id_batalhao', '=', id_batalhao);
         }
         if (dt_aposentadoria_inf) {
-            militares.where('militares.dt_aposentadoria', '>=', dt_aposentadoria_inf);
+            militares.where('Militares.dt_aposentadoria', '>=', dt_aposentadoria_inf);
         }
         if (dt_aposentadoria_sup) {
-            militares.where('militares.dt_aposentadoria', '<=', dt_aposentadoria_sup);
+            militares.where('Militares.dt_aposentadoria', '<=', dt_aposentadoria_sup);
         }
         militares.then(function (rows) {
             console.log(rows);
@@ -51,14 +58,7 @@ module.exports = {
             return res.json({ militares: rows });
         })
 
-        // const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao').join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").join("Batalhao", "lotacao.id_batalhao", "=", "Batalhao.id_batalhao").where('militares.dt_aposentadoria', '>=', dt_aposentadoria_inf).where('militares.dt_aposentadoria', '<=', dt_aposentadoria_sup).where('militares.nm_militar', 'like', `%${nome}%`).where('lotacao.id_localidade', '=', localidade).where('lotacao.id_cidade', '=', cidade).where('lotacao.id_batalhao', '=', batalhao).select('*');
 
-        // const militares = await connection('militares').select('*')
-        // .join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
-        //     .where('nome', 'like', `%${nome}%`)
-        //     .andWhereBetween('militares.dt_aposentadoria', [dt_aposentadoria_inf, dt_aposentadoria_sup])
-        //     .andWhere('lotacao.cidade', '=', cidade)
-        //     .andWhere('lotacao.batalhao', '=', batalhao)
 
     },
     async getMilitarByMatricula(req, res) {

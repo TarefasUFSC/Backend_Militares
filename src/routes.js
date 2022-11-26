@@ -5,7 +5,7 @@ const InfoController = require('./controllers/InfoController');
 const MilitaresController = require('./controllers/MilitaresController');
 
 // rotas dos MILITARES (pessoas)
-routes.get("/militares/aposentados", MilitaresController.getMilitaresAposentados); // aqui vai passar os filtros na query
+routes.get("/militares/aposentadoria", MilitaresController.gerAposentadoriaMilitares); // aqui vai passar os filtros na query
 routes.get("/militares/:matricula", MilitaresController.getMilitarByMatricula);
 
 // rotas de informações gerais do sistema

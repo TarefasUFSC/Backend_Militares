@@ -7,6 +7,7 @@
         table.increments('id_lotacao').primary().notNullable();
         table.integer('id_regiao').notNullable();
         table.integer('id_batalhao').notNullable();
+        table.foreign('id_batalhao').references('id_batalhao').inTable('Batalhao').onDelete('CASCADE');
         table.integer('id_companhia').notNullable();
         table.integer('id_pelotao').notNullable();
         table.integer('id_grupo').notNullable();
