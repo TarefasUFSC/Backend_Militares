@@ -14,7 +14,21 @@ module.exports = {
             }
 
         }
+        // aqui busca os militares pelas quantidades passadas no detalhes e ordena pela antiguidade (do menor para o maior)
+        let data = {}
+        for(let i = 0; i < ranks.length; i++){
+            const militares = await connection('Militares')
+            .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
+            .join("Cidade", "Lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .leftOuterJoin("Batalhao", "Lotacao.id_batalhao", "=", "Batalhao.id_batalhao")
+            .select('*')
+            .where('Militares.id_posto', '=', ranks[i].id_posto)
+            .orderBy('Militares.antiguidade', 'asc')
+            .limit(detalhes[ranks[i].nm_posto]);
+            data[ranks[i].nm_posto] = militares;
         
-        return res.json({ message: 'Sugestão de alocação' });
+        }
+        console.log(data);
+        return res.json({ alocacao: data });
     }
 }

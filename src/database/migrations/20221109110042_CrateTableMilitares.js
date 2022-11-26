@@ -7,8 +7,8 @@ exports.up = function (knex) {
         table.increments('matricula').primary().unique().notNullable();
         table.string('nome').notNullable();
         table.string('sexo').notNullable();
-        table.integer('posto');
-        table.foreign('posto').references('id_posto').inTable('Posto').onDelete('CASCADE');
+        table.integer('id_posto').notNullable();
+        table.foreign('id_posto').references('id_posto').inTable('Posto').onDelete('CASCADE');
         table.integer('antiguidade').notNullable();
         table.integer('id_lotacao').notNullable();
         table.foreign('id_lotacao').references('id_lotacao').inTable('Lotacao').onDelete('CASCADE');
