@@ -28,7 +28,7 @@ module.exports = {
             data[ranks[i].nm_posto] = militares;
         
         }
-        console.log(data);
+        //console.log(data);
         return res.json({ alocacao: data });
     }
 }

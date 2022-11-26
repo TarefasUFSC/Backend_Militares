@@ -208,11 +208,19 @@ module.exports = {
         const cursosLista = cursos_lista.map(curso =>
             ({ nm_curso: curso.nm_curso, id_tipo_curso: curso.id_tipo_curso }));
         const novosCursos = await connection('Curso').insert(cursosLista);
+
         if (novosCursos == undefined || novosCursos.length == 0) {
             return res.status(500).json({ msg: 'Erro ao adicionar cursos' });
         }
-        console.log(novosCursos);
-        return res.json({ novosCursos });
+        
+        // faz uma lista comos dados dos cursos recem adicionados
+        let data = {}
+        for (let i = 0; i < cursosLista.length; i++) {
+            const cursoN = await connection('Curso').select("*").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso').where('nm_curso', cursosLista[i].nm_curso).andWhere('Curso.id_tipo_curso', cursosLista[i].id_tipo_curso);
+            data[cursoN[0].nm_curso] = cursoN[0];
+        }
+        console.log(data);
+        return res.json({ cursos_adicionados: data });
     },
     async getCursos(req, res) {
         const cursos = await connection('Curso')
