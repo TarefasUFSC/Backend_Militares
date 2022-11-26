@@ -35,7 +35,7 @@ module.exports = {
             .offset((pagina - 1) * qtd);
 
         if (nome) {
-            militares.where('Militares.nm_militar', 'like', `%${nome}%`);
+            militares.where('Militares.nome', 'like', `%${nome}%`);
         }
         if (id_cidade) {
             militares.where('Cidade.id_cidade', '=', id_cidade);
