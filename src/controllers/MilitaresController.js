@@ -61,7 +61,7 @@ module.exports = {
 
 
     },
-    async getMilitarByMatricula(req, res) {
+    async getMilitarPorMatricula(req, res) {
         const { matricula } = req.params;
         const militar = await connection('Militares').select('*').where('militares.matricula', '=', matricula)
 

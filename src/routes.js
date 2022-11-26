@@ -3,10 +3,14 @@ const routes = express.Router();
 
 const InfoController = require('./controllers/InfoController');
 const MilitaresController = require('./controllers/MilitaresController');
+const AlocacaoController = require('./controllers/AlocacaoController');
 
 // rotas dos MILITARES (pessoas)
 routes.get("/militares/aposentadoria", MilitaresController.gerAposentadoriaMilitares); // aqui vai passar os filtros na query
-routes.get("/militares/:matricula", MilitaresController.getMilitarByMatricula);
+routes.get("/militares/:matricula", MilitaresController.getMilitarPorMatricula);
+
+// rotas de Alocação
+routes.get("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
 
 // rotas de informações gerais do sistema
 routes.get('/info/resumo', InfoController.getResumo);
