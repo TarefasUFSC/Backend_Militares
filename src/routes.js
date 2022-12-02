@@ -8,6 +8,7 @@ const AlocacaoController = require('./controllers/AlocacaoController');
 // rotas dos MILITARES (pessoas)
 routes.get("/militares/aposentadoria", MilitaresController.gerAposentadoriaMilitares); // aqui vai passar os filtros na query
 routes.get("/militares/:matricula", MilitaresController.getMilitarPorMatricula);
+routes.post("/militares", MilitaresController.createMilitar);
 
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
