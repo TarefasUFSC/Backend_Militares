@@ -16,8 +16,13 @@ routes.get("/alocacao", AlocacaoController.getListagemAlocacao);
 
 // rotas de informações gerais do sistema
 routes.get('/info/resumo', InfoController.getResumo);
-routes.get('/info/curso', InfoController.getCursos);
+;
 routes.get("/info/idioma", InfoController.getLinguas);
-routes.post("/info/curso", InfoController.addCursos);
+// routes.post('/info/idioma', InfoController.createIdiomas);
+
+routes.get('/info/curso', InfoController.getCursos);
+routes.post("/info/curso", InfoController.createCursos);
+// routes.post('/info/curso/tipo', InfoController.createTipoCurso);
+
 
 module.exports = routes;
