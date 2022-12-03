@@ -225,12 +225,14 @@ module.exports = {
     async getCursos(req, res) {
         const cursos = await connection('Curso')
         .join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso')
-        .select('Curso.nm_curso');
+        .select('Curso.nm_curso')
+        .select('Curso.id_curso');
         return res.json({ cursos:cursos });
     },
     async getLinguas(req, res) {
         const linguas = await connection('Idioma')
-            .select('Idioma.nm_idioma');
+            .select('Idioma.nm_idioma')
+            .select('Idioma.id_idioma');
         return res.json({ idiomas:linguas });
     },
     async addLinguas(req, res){
