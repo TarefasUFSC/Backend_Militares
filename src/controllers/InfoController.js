@@ -263,7 +263,40 @@ module.exports = {
         }
         console.log(data);
         return res.json({ idioma_adicionados: data });
-    }
+    },
+   async createTipoCurso(req, res){
+        const { list_tipo_curso } = req.body;
+        const { secret_access_tokenTC } = req.headers;
+
+        if(list_tipo_curso == undefined || list_tipo_curso.length == 0)
+        {return res.status(400).json({ msg: 'Lista de Tipos de Curso vazia' });}
+
+        const tipocurso = await connection('TipoCurso').select('*').whereIn('nm_tipo_curso', ListSearchTipoCurso);
+        const { ListSearchTipoCurso } =  list_tipo_curso.map(tipocurso => tipocurso.nm_tipo_curso);
+
+        if(tipocurso.length > 0){
+        return res.status(400).json({ msg: 'Um ou mais tipos de cursos já existem na base de dados' });
+        }
+
+        const tipocursoList = list_tipo_curso.map(tipocurso => ({ nm_tipo_curso: tipocurso.nm_tipo_curso, id_tipo_curso: tipocurso.id_tipo_curso }));
+        const newTipoCurso = await connection('TipoCurso').insert(tipocursoList);
+
+        if (newTipoCurso == undefined || newTipoCurso.length == 0) {
+            return res.status(500).json({ msg: 'Erro ao adicionar Tipo de Curso' });
+        }
+
+        let data = {}
+        for (let i = 0; i < tipocursoList.length; i++) {
+            const tipocursoN = await connection('TipoCurso')
+            .select("*").where('nm_tipo_curso', tipocursoList[i].nm_tipo_curso)
+            .andWhere('TipoCurso.id_tipo_curso', tipocursoList[i].id_tipo_curso);
+            data[tipocursoN[0].nm_tipo_curso] = tipocursoN[0];
+        }
+        console.log(data);
+        return res.json({ tipo_curso_adicionados: data });
+
+
+  }
 
 
 
