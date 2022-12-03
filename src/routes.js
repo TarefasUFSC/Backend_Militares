@@ -12,7 +12,7 @@ routes.post("/militares", MilitaresController.createMilitar);
 
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
-// routes.get("/alocacao", AlocacaoController.getAlocacoes); // isso aqui é é da função adicional que sugeri (ralph)
+routes.get("/alocacao", AlocacaoController.getListagemAlocacao);
 
 // rotas de informações gerais do sistema
 routes.get('/info/resumo', InfoController.getResumo);

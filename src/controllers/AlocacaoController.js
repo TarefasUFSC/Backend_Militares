@@ -30,5 +30,11 @@ module.exports = {
         }
         //console.log(data);
         return res.json({ alocacao: data });
+    },
+    
+    async getListagemAlocacao(req, res){
+        const alocacao = await connection('Alocacao').select('*');
+
+        return res.json(alocacao);
     }
 }
