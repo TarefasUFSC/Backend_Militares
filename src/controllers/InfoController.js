@@ -185,7 +185,7 @@ module.exports = {
         }
         return res.json({ resumo: data });
     },
-    async addCursos(req, res) {
+    async createCursos(req, res) {
         // tem que verificar se a chava passada no HEADER é a correta (secret_access_token)
         // essa rota adiciona uma lista de cursos na tabela Cursos
         // a lista de cursos é passada no corpo da requisição

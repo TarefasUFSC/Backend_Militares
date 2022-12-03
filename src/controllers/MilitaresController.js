@@ -10,14 +10,14 @@ async function calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso
         }
     }
     // time_spent_on_military (em dias) = (dt_theoretical_retirement  - dt_entry ) (em dias) - tmp_military (em dias)
-    const diffTime = Math.abs(dt_aposentadoria_teorica - dt_ingresso);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));   
+    const diffTime = Math.abs(dt_aposentadoria_teorica.getTime()/1000 - dt_ingresso.getTime()/1000 );
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     let tempo_total_militar = diffDays - temp_militar;
-    if(min_mili_time_years){
-        if(tempo_total_militar < 365.25 * min_mili_time_years){
+    if (min_mili_time_years) {
+        if (tempo_total_militar < 365.25 * min_mili_time_years) {
             toll_4_months_years = parseInt((365.25 * min_mili_time_years - tempo_total_militar) / 365.25); // para cada anos que tiver aqui vai ser 1 taxa de 4 meses
         }
-    }else{
+    } else {
         toll_4_months_years = 0;
     }
     // subtrai a data teorica de aposentadoria com o tempo militar e o tempo civil, sendo que a aposentadoria teorica é do tipo Date() e o tempo militar e civil são em dias
@@ -58,7 +58,7 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
         - “4 meses”
             Se até 31/12/2021 tiver fechado as regras anteriores, não há pedágio. Caso contrário, do tempo que restar para fechar o tempo militar em 01/01/2022 deve ser acrescentado 4 meses para cada ano faltante.
     */
-    dt_ingresso = new Date(dt_ingresso*1000);
+    dt_ingresso = new Date(dt_ingresso * 1000);
     let dt_19_12_2013 = new Date(2013, 12, 19);
     let dt_31_08_2006 = new Date(2006, 8, 31);
     let dt_01_09_2006 = new Date(2006, 9, 1);
@@ -69,7 +69,7 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     let dt_ret = new Date();
 
     // calcula a aposentadoria teorica (soma 35 anos)
-    let dt_aposentadoria_teorica = new Date(dt_ingresso*1000);
+    let dt_aposentadoria_teorica = new Date(dt_ingresso * 1000);
     dt_aposentadoria_teorica.setFullYear(dt_aposentadoria_teorica.getFullYear() + 35);
 
     let toll_4_months_years = 0;
@@ -91,55 +91,54 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
         }
     }
 
-    if(sexo = "M"){
-        if(dt_ingresso <= dt_19_12_2013){
+    if (sexo = "M") {
+        if (dt_ingresso <= dt_19_12_2013) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, null, null, temp_civil, temp_militar)
-            dt_aposentadoria_teorica = dt.dt_aposentadoria_teorica;
+            dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
             toll_4_months_years = dt.toll_4_months_years;
         }
-        else if(dt_ingresso > dt_19_12_2013){
+        else if (dt_ingresso > dt_19_12_2013) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, 30, 5, temp_civil, temp_militar)
-            dt_aposentadoria_teorica = dt.dt_aposentadoria_teorica;
+            dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
             toll_4_months_years = dt.toll_4_months_years;
         }
 
     }
-    else{
-        if(dt_ingresso <= dt_31_08_2006){
+    else {
+        if (dt_ingresso <= dt_31_08_2006) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, null, null, temp_civil, temp_militar)
-            dt_aposentadoria_teorica = dt.dt_aposentadoria_teorica;
+            dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
             toll_4_months_years = dt.toll_4_months_years;
         }
-        else if(dt_ingresso >= dt_01_09_2006 && dt_ingresso <= dt_19_12_2013){
+        else if (dt_ingresso >= dt_01_09_2006 && dt_ingresso <= dt_19_12_2013) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, 20, 15, temp_civil, temp_militar)
-            dt_aposentadoria_teorica = dt.dt_aposentadoria_teorica;
+            dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
             toll_4_months_years = dt.toll_4_months_years;
         }
-        else if(dt_ingresso > dt_19_12_2013){
+        else if (dt_ingresso > dt_19_12_2013) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, 30, 5, temp_civil, temp_militar)
-            dt_aposentadoria_teorica = dt.dt_aposentadoria_teorica;
+            dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
             toll_4_months_years = dt.toll_4_months_years;
         }
     }
 
     // calcula o pedágio de 17%
-    if(dt_aposentadoria_teorica > dt_31_12_2021){
-        
+    if (dt_aposentadoria_teorica > dt_31_12_2021) {
+
         const diffTime = Math.abs(dt_aposentadoria_teorica - dt_01_01_2022);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
-        toll_17_percent = diffDays * 0.17; 
-    }else{
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        toll_17_percent = diffDays * 0.17;
+    } else {
         toll_17_percent = 0;
     }
 
     // calcula o pedagio de 4 meses em dias
-    if(toll_4_months_years>0){
-        toll_4_months = parseInt(4*toll_4_months_years/365.25); //isso esta em meses
+    if (toll_4_months_years > 0) {
+        toll_4_months = parseInt(4 * toll_4_months_years / 365.25); //isso esta em meses
     }
-    else{
+    else {
         toll_4_months = 0;
     }
-
     // calcula a aposentadoria real, levando os pedágios, ja em dias, em consideração
     // transorma os pedagios em segundos
     // transforma a data de aposentadoria teorica em timestamp em segundos
@@ -147,10 +146,10 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     let toll_4_months_seconds = toll_4_months * 86400 * 30;
     let toll_17_percent_seconds = toll_17_percent * 86400;
     let dt_aposentadoria_real_timestamp = dt_aposentadoria_teorica_timestamp + toll_4_months_seconds + toll_17_percent_seconds;
-    
+
     return {
         dt_aposentadoria_real_timestamp: dt_aposentadoria_real_timestamp,
-        toll:{
+        toll: {
             toll_4_months: toll_4_months,
             toll_17_percent: toll_17_percent
         },
@@ -244,9 +243,9 @@ module.exports = {
         // ferias: int (opcional - default em null)
         // img_perfil: string (opcional - default em null)
         // lista_de_tempos_anteriores: array de objetos (opcional - default em null)
-        // cada objeto deve ter os seguintes dados:
-        // id_tipo_tempo_anterior: int (obrigatorio)
-        // tempo_dias: int (obrigatorio)
+        // // cada objeto deve ter os seguintes dados:
+        // // // id_tipo_tempo_anterior: int (obrigatorio)
+        // // // tempo_dias: int (obrigatorio)
         let { nome, sexo, id_posto, antiguidade, id_lotacao, dt_ingresso, dt_nascimento, licencas_esp_acc, id_comportamento, endereco, ferias, img_perfil, lista_de_tempos_anteriores } = req.body;
         // o dt_aposentadoria é calculado depois usando os tempos anteriores e a data de ingresso
 
@@ -340,21 +339,19 @@ module.exports = {
 
         // adiciona a data de aposentadoria no militar
         await connection('Militares').update({
-            dt_aposentadoria:dt_aposentadoria_real_timestamp
+            dt_aposentadoria: dt_aposentadoria_real_timestamp
         }).where('matricula', '=', matricula_militar);
 
         // retorna o militar criado
         const militar_criado = await connection('Militares').select('*')
             .join('Posto', 'Militares.id_posto', '=', 'Posto.id_posto')
-            .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
+            .join('lotacao', 'Militares.id_lotacao', '=', 'lotacao.id_lotacao')
             .leftJoin('Comportamento', 'Militares.id_comportamento', '=', 'Comportamento.id_comportamento')
             .leftJoin('MilitarTempoAnterior', 'Militares.matricula', '=', 'MilitarTempoAnterior.matricula_militar')
-            .leftJoin('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo_anterior', '=', 'TipoTempoAnterior.id_tipo_tempo_anterior')
-            .leftJoin("Cidade as CidadeLotacao", "Lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .leftJoin('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .leftJoin("Cidade as CidadeLotacao", "lotacao.id_cidade", "=", "CidadeLotacao.id_cidade")
             .where('matricula', '=', matricula_militar);
 
         return res.json({ militar: militar_criado });
     }
-
-
 }
