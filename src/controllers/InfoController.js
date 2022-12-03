@@ -16,7 +16,7 @@ async function get_rank_data() {
     // grupo por posto
     // conta quantas pessoas de cada posto existem na tabela militares
 
-    const militares = await connection('militares').join('posto', 'militares.posto', '=', 'posto.id_posto')
+    const militares = await connection('militares').join('posto', 'militares.id_posto', '=', 'posto.id_posto')
         .count('posto.nm_posto as qtd').groupBy('posto.nm_posto').select('posto.nm_posto');
     return militares;
 }
@@ -27,7 +27,7 @@ async function get_city_data() {
     // grupo por cidade
     // conta quantas pessoas de cada sexo existem na tabela 
 
-    const militares = await connection('militares').join('lotacao', 'militares.lotacao', '=', 'lotacao.id_lotacao')
+    const militares = await connection('militares').join('lotacao', 'militares.id_lotacao', '=', 'lotacao.id_lotacao')
         .join("Cidade", "lotacao.id_cidade", "=", "Cidade.id_cidade").count('Cidade.nm_cidade as qtd').groupBy('Cidade.nm_cidade')
         .select('Cidade.nm_cidade');
     return militares;
