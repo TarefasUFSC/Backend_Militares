@@ -161,7 +161,7 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
 
 module.exports = {
 
-    async gerAposentadoriaMilitares(req, res) {
+    async getAposentadoriaMilitares(req, res) {
         // os calculos de aposentadoria são feitos quando se adiciona ou altera um militar, então aqui só precisa fazer a busca consderando que isso ja foi feito em outro lugar
 
         // os filtros são passados pela query
