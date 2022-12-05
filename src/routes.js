@@ -9,8 +9,7 @@ const AlocacaoController = require('./controllers/AlocacaoController');
 routes.get("/militares/aposentadoria", MilitaresController.getAposentadoriaMilitares); // aqui vai passar os filtros na query
 routes.get("/militares/:matricula", MilitaresController.getMilitarPorMatricula);
 routes.post("/militares", MilitaresController.createMilitar);
-// Fazer minha parte 
-// Coisa linda
+
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
 routes.get("/alocacao", AlocacaoController.getListagemAlocacao);
@@ -26,5 +25,6 @@ routes.post("/info/curso", InfoController.createCursos);
 routes.get('/info/curso', InfoController.getCursos);
 routes.post('/info/curso/tipo', InfoController.createTipoCurso);
 
+routes.get('/info/compartamento', InfoController.getComportamento);
 
 module.exports = routes;
