@@ -297,10 +297,42 @@ module.exports = {
         console.log(data);
         return res.json({ tipo_curso_adicionados: data });
 
+  },
 
+  async getComportamento(req, res){
+    const comportamento = await connection('Comportamento')
+            .select('Comportamento.nm_comportamento')
+            .select('Comportamento.id_comportamento');
+    return res.json({ comportamento : comportamento });
+  },
+
+  async getTempoAnterior(req, res){
+    const TempoAnterior = await connection('TipoTempoAnterior')
+            .select('TipoTempoAnterior.nm_tipo_tempo')
+            .select('TipoTempoAnterior.id_tipo_tempo');
+    return res.json({TempoAnterior:TempoAnterior});
+  },
+
+  async getPostos(req, res){
+    const Postos = await connection('Posto')
+            .select('Posto.nm_posto')
+            .select('Posto.id_posto');
+    return res.json({Postos:Postos});
+  },
+
+  async getTipoCurso(req, res){
+    const tipocurso = await connection('TipoCurso')
+            .select('TipoCurso.nm_tipo_curso')
+            .select('TipoCurso.id_tipo_curso');
+    return res.json({tipocurso:tipocurso});
+  },
+
+  async getTipoRestricao(req, res){
+    const tiporestricao = await connection('TipoRestricao')
+            .select('TipoRestricao.nm_tipo_restricao')
+            .select('TipoRestricao.id_tipo_restricao');
+    return res.json({tiporestricao:tiporestricao});
   }
-
-
 
 
 }
