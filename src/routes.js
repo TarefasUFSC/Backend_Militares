@@ -27,4 +27,12 @@ routes.post('/info/curso/tipo', InfoController.createTipoCurso);
 
 routes.get('/info/compartamento', InfoController.getComportamento);
 
+routes.get('/info/tempo_anterior', InfoController.getTempoAnterior);
+
+routes.get('/info/postos', InfoController.getPostos);
+
+routes.get('/info/tipo_curso', InfoController.getTipoCurso);
+
+routes.get('/info/tipo_restricao', InfoController.getTipoRestricao);
+
 module.exports = routes;
