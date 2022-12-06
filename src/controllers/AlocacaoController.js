@@ -7,10 +7,29 @@ module.exports = {
         const { detalhes } = req.body;
 
         const ranks = await connection('Posto').select('*');
+        let ranks_pesquisa = {};
+
+        // faz uma lista com todas as chaves de detalhes
+        let chaves = Object.keys(detalhes);
+        // verifica se alguma chave de detalhe é um posto invalido
+        for (let i = 0; i < chaves.length; i++) {
+            let existe = false;
+            for (let j = 0; j < ranks.length; j++) {
+                if (chaves[i] == ranks[j].nm_posto) {
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                return res.status(400).json({ error: 'Posto '+chaves[i]+ ' inválido' });
+            }
+        }
+
         for (let i = 0; i < ranks.length; i++) {
-            //verifica se o rank foi passado no "detalhes" passado no body
+
+            //verifica se o rank existe no detalhes, se não existir, ele coloca 0
             if (detalhes[ranks[i].nm_posto] == undefined) {
-                return res.status(400).json({ error: 'Rank ' + ranks[i].nm_posto + ' não foi passado no body' });
+                ranks_pesquisa[ranks[i].nm_posto] = 0;
             }
 
         }
@@ -24,7 +43,7 @@ module.exports = {
             .select('*')
             .where('Militares.id_posto', '=', ranks[i].id_posto)
             .orderBy('Militares.antiguidade', 'asc')
-            .limit(detalhes[ranks[i].nm_posto]);
+            .limit(ranks_pesquisa[ranks[i].nm_posto]);
             data[ranks[i].nm_posto] = militares;
         
         }
