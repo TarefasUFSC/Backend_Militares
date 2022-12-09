@@ -44,6 +44,7 @@ routes.get('/info/postos', InfoController.PostoController.getPostos);
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
 
+routes.post('/info/lotacao', InfoController.LotacaoController.createLotacao);
 // routes.put('/info/lotacao/:id', InfoController.updateLotacao);
 // routes.delete('/info/lotacao/:id', InfoController.deleteLotacao);
 

@@ -8,6 +8,7 @@ const ComportamentoController = require("./InfoControllers/ComportamentoControll
 const TempoAnteriorController = require("./InfoControllers/TempoAnteriorController");
 const RestricaoController = require("./InfoControllers/RestricaoController");
 const BatalhaoController = require("./InfoControllers/BatalhaoController");
+const LotacaoController = require("./InfoControllers/LotacaoController");
 module.exports = {
 
     ResumoController,
@@ -18,5 +19,5 @@ module.exports = {
     TempoAnteriorController,
     RestricaoController,
     BatalhaoController,
-
+    LotacaoController
 }
