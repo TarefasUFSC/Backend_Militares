@@ -69,5 +69,20 @@ module.exports = {
             TempoAnterior: retTipoTempo
 
         });
+    },
+    async deleteTempoAnterior(req, res) {
+        const { id_tipo_tempo } = req.params;
+        // verifica se o tempo anterior existe
+        const tempoAnterior = await connection('TipoTempoAnterior').where('id_tipo_tempo', id_tipo_tempo).select('TipoTempoAnterior.id_tipo_tempo').first();
+        if (!tempoAnterior) {
+            return res.status(400).json({ msg: 'Tempo anterior nao existe' });
+        }
+        // deleta o tempo anterior
+        const tipo_tempo = await connection('TipoTempoAnterior').where('id_tipo_tempo', id_tipo_tempo).delete();
+        if (!tipo_tempo) {
+            return res.status(400).json({ msg: 'Erro ao deletar tempo anterior' });
+        }
+        return res.json({ msg: 'Tempo anterior deletado com sucesso' });
+        
     }
 }

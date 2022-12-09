@@ -37,7 +37,7 @@ routes.get('/info/comportamento', InfoController.ComportamentoController.getComp
 routes.get('/info/tempo_anterior', InfoController.TempoAnteriorController.getTempoAnterior);
 routes.post('/info/tempo_anterior', InfoController.TempoAnteriorController.createTempoAnterior);
 routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.updateTempoAnterior);
-// routes.delete('/info/tempo_anterior/:id', InfoController.TempoAnteriorController.deleteTempoAnterior);
+routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 routes.get('/info/postos', InfoController.PostoController.getPostos);
 
