@@ -26,6 +26,8 @@ module.exports = {
     },
     async updateBatalhao(req, res) {
         const { id_batalhao } = req.params;
+
+        // nm_batalhao: string (obrigatorio)
         const { nm_batalhao } = req.body;
         // verifica se o batalhao existe
         const batalhao = await connection('Batalhao').where('id_batalhao', id_batalhao).select('Batalhao.nm_batalhao').first();
