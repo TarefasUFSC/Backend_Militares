@@ -36,7 +36,7 @@ routes.get('/info/comportamento', InfoController.ComportamentoController.getComp
 // então são rotas para listar, adicionar, atualizar e deletar o tipo de tempo anterior
 routes.get('/info/tempo_anterior', InfoController.TempoAnteriorController.getTempoAnterior);
 routes.post('/info/tempo_anterior', InfoController.TempoAnteriorController.createTempoAnterior);
-// routes.put('/info/tempo_anterior/:id', InfoController.TempoAnteriorController.updateTempoAnterior);
+routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.updateTempoAnterior);
 // routes.delete('/info/tempo_anterior/:id', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 routes.get('/info/postos', InfoController.PostoController.getPostos);
