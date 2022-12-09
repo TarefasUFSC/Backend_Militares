@@ -49,7 +49,7 @@ routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRes
 
 routes.post('/info/batalhao', InfoController.BatalhaoController.createBatalhao);
 routes.put('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.updateBatalhao);
-// routes.delete('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.deleteBatalhao);
+routes.delete('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.deleteBatalhao);
 
 
 
