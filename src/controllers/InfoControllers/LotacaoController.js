@@ -2,6 +2,12 @@ const connection = require("../../database/connection");
 
 
 module.exports = {
+    async getAllLotacao(req, res) {
+        const lotacao = await connection('Lotacao').select('Lotacao.*', "Batalhao.nm_batalhao", "Cidade.nm_cidade")
+            .leftJoin('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
+            .leftJoin('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade');
+        return res.json({ Lotacoes: lotacao });
+    },
     async createLotacao(req, res) {
         // id_regiao: int (obrigatorio)
         // id_batalhao: int (obrigatorio)
@@ -50,11 +56,11 @@ module.exports = {
             id_cidade
         });
         const novaLot = await connection('Lotacao')
-        .where('id_lotacao', id_lotacao)
-        .select('Lotacao.*',"Batalhao.nm_batalhao", "Cidade.nm_cidade")
-        .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
-        .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade')
-        .first();
+            .where('id_lotacao', id_lotacao)
+            .select('Lotacao.*', "Batalhao.nm_batalhao", "Cidade.nm_cidade")
+            .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
+            .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade')
+            .first();
         return res.status(200).json({ Lotacao: novaLot });
     },
     async updateLotacao(req, res) {
@@ -100,22 +106,22 @@ module.exports = {
         }
 
         // seleciona a lotacao que deseja alterar e verifica se existe uma outra lotacao com os dados que deseja alterar que foram passados
-        if(id_regiao){
+        if (id_regiao) {
             lotacao.id_regiao = id_regiao;
         }
-        if(id_batalhao){
+        if (id_batalhao) {
             lotacao.id_batalhao = id_batalhao;
         }
-        if(id_companhia){
+        if (id_companhia) {
             lotacao.id_companhia = id_companhia;
         }
-        if(id_pelotao){
+        if (id_pelotao) {
             lotacao.id_pelotao = id_pelotao;
         }
-        if(id_grupo){
+        if (id_grupo) {
             lotacao.id_grupo = id_grupo;
         }
-        if(id_cidade){
+        if (id_cidade) {
             lotacao.id_cidade = id_cidade;
         }
         const lotacaoExistente = await connection('Lotacao').where('id_regiao', lotacao.id_regiao).where('id_batalhao', lotacao.id_batalhao).where('id_companhia', lotacao.id_companhia).where('id_pelotao', lotacao.id_pelotao).where('id_grupo', lotacao.id_grupo).where('id_cidade', lotacao.id_cidade).select('Lotacao.id_lotacao').first();
@@ -131,15 +137,15 @@ module.exports = {
             id_grupo: lotacao.id_grupo,
             id_cidade: lotacao.id_cidade
         });
-        if(!lotAtualizada){
+        if (!lotAtualizada) {
             return res.status(400).json({ msg: 'Erro ao atualizar lotacao' });
         }
         const retLot = await connection('Lotacao')
-        .where('id_lotacao', id_lotacao)
-        .select('Lotacao.*',"Batalhao.nm_batalhao", "Cidade.nm_cidade")
-        .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
-        .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade')
-        .first();
+            .where('id_lotacao', id_lotacao)
+            .select('Lotacao.*', "Batalhao.nm_batalhao", "Cidade.nm_cidade")
+            .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
+            .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade')
+            .first();
         return res.status(200).json({ Lotacao: retLot });;
 
 
@@ -148,15 +154,15 @@ module.exports = {
     async deleteLotacao(req, res) {
         const { id_lotacao } = req.params;
         // verifica se a lotacao existe
-        const lotacao = await connection('Lotacao').where('id_lotacao', id_lotacao).select('Lotacao.*',"Batalhao.nm_batalhao", "Cidade.nm_cidade")
-        .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
-        .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade').first();
+        const lotacao = await connection('Lotacao').where('id_lotacao', id_lotacao).select('Lotacao.*', "Batalhao.nm_batalhao", "Cidade.nm_cidade")
+            .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
+            .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade').first();
         if (!lotacao) {
             return res.status(400).json({ msg: 'Lotacao nao existe' });
         }
         // deleta a lotacao
         const lotacaoDeletada = await connection('Lotacao').where('id_lotacao', id_lotacao).delete();
-        if(!lotacaoDeletada){
+        if (!lotacaoDeletada) {
             return res.status(400).json({ msg: 'Erro ao deletar lotacao' });
         }
         return res.status(200).json({ Lotacao: lotacao });
