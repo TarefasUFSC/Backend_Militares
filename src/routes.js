@@ -19,6 +19,7 @@ routes.get('/info/resumo', InfoController.getResumo);
 
 routes.get("/info/idioma", InfoController.getLinguas);
 routes.post("/info/idioma", InfoController.addLinguas);
+//routes.put("/info/idioma/:id", InfoController.putIdIdioma);
 
 routes.get('/info/curso', InfoController.getCursos);
 routes.post("/info/curso", InfoController.createCursos);
@@ -30,9 +31,12 @@ routes.get('/info/compartamento', InfoController.getComportamento);
 routes.get('/info/tempo_anterior', InfoController.getTempoAnterior);
 
 routes.get('/info/postos', InfoController.getPostos);
+routes.post("/info/posto", InfoController.addPosto);
 
 routes.get('/info/tipo_curso', InfoController.getTipoCurso);
 
 routes.get('/info/tipo_restricao', InfoController.getTipoRestricao);
+
+routes.get('/info/batalhoes', InfoController.getBatalhoes);
 
 module.exports = routes;

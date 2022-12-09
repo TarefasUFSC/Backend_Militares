@@ -1,3 +1,4 @@
+const { Database } = require("sqlite3");
 const connection = require("../database/connection");
 
 async function get_gender_data() {
@@ -332,7 +333,46 @@ module.exports = {
             .select('TipoRestricao.nm_tipo_restricao')
             .select('TipoRestricao.id_tipo_restricao');
     return res.json({tiporestricao:tiporestricao});
-  }
+  },
+  
+  async getBatalhoes(req, res){
+    const batalhao = await connection('Lotacao')
+            .select('Lotacao.id_batalhao');
+    return res.json({batalhao:batalhao});
+  },
+
+  /*async addPosto(req, res){
+        const { posto_lista } = req.body;
+        const { secret_access_tokenP } = req.headers;
+
+        if(posto_lista == undefined || posto_lista.length == 0)
+        {return res.status(400).json({ msg: 'Lista de postos vazia' });}
+
+        const posto = await connection('Posto').select('*').whereIn('nm_posto', ListSearchPosto);
+        const { ListSearchPosto } =  posto_lista.map(posto => posto.nm_posto);
+
+        if(posto.length > 0){
+        return res.status(400).json({ msg: 'Um ou mais postos já existem na base de dados' });
+        }
+
+        const postoList = list_posto.map(posto => ({ nm_posto: posto.nm_posto, id_posto: posto.id_posto }));
+        const newPosto = await connection('Posto').insert(postoList);
+
+        if (newPosto == undefined || newPosto.length == 0) {
+            return res.status(500).json({ msg: 'Erro ao adicionar posto' });
+        }
+
+        let data = {}
+        for (let i = 0; i < postoList.length; i++) {
+            const postoN = await connection('Posto')
+            .select("*").where('nm_posto', postoList[i].nm_posto)
+            .andWhere('Posto.id_posto', postoList[i].id_posto);
+            data[postoN[0].nm_posto] = postoN[0];
+        }
+        console.log(data);
+        return res.json({ posto_adicionados: data });
+},*/
+
 
 
 }
