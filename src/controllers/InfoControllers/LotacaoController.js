@@ -144,5 +144,22 @@ module.exports = {
 
 
 
+    },
+    async deleteLotacao(req, res) {
+        const { id_lotacao } = req.params;
+        // verifica se a lotacao existe
+        const lotacao = await connection('Lotacao').where('id_lotacao', id_lotacao).select('Lotacao.*',"Batalhao.nm_batalhao", "Cidade.nm_cidade")
+        .join('Batalhao', 'Batalhao.id_batalhao', 'Lotacao.id_batalhao')
+        .join('Cidade', 'Cidade.id_cidade', 'Lotacao.id_cidade').first();
+        if (!lotacao) {
+            return res.status(400).json({ msg: 'Lotacao nao existe' });
+        }
+        // deleta a lotacao
+        const lotacaoDeletada = await connection('Lotacao').where('id_lotacao', id_lotacao).delete();
+        if(!lotacaoDeletada){
+            return res.status(400).json({ msg: 'Erro ao deletar lotacao' });
+        }
+        return res.status(200).json({ Lotacao: lotacao });
+
     }
 }
