@@ -30,17 +30,19 @@ routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.get('/info/curso/tipo', InfoController.CursoController.getTipoCurso);
 routes.post('/info/curso/tipo', InfoController.CursoController.createTipoCurso);
 
-routes.get('/info/comportamento', InfoController.getComportamento);
+routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
 
-routes.get('/info/tempo_anterior', InfoController.getTempoAnterior);
-// routes.post('/info/tempo_anterior', InfoController.createTempoAnterior);
-// routes.put('/info/tempo_anterior/:id', InfoController.updateTempoAnterior);
-// routes.delete('/info/tempo_anterior/:id', InfoController.deleteTempoAnterior);
+// isso aqui, como estamos nfalando sobre informações do sistema, diz respeito ao TIPO de tempo anterior
+// então são rotas para listar, adicionar, atualizar e deletar o tipo de tempo anterior
+routes.get('/info/tempo_anterior', InfoController.TempoAnteriorController.getTempoAnterior);
+// routes.post('/info/tempo_anterior', InfoController.TempoAnteriorController.createTempoAnterior);
+// routes.put('/info/tempo_anterior/:id', InfoController.TempoAnteriorController.updateTempoAnterior);
+// routes.delete('/info/tempo_anterior/:id', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
-routes.get('/info/postos', InfoController.getPostos);
+routes.get('/info/postos', InfoController.PostoController.getPostos);
 
 
-routes.get('/info/tipo_restricao', InfoController.getTipoRestricao);
+routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
 
 // routes.put('/info/lotacao/:id', InfoController.updateLotacao);
 // routes.delete('/info/lotacao/:id', InfoController.deleteLotacao);
