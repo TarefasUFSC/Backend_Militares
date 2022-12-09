@@ -45,8 +45,8 @@ routes.get('/info/postos', InfoController.PostoController.getPostos);
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
 
 routes.post('/info/lotacao', InfoController.LotacaoController.createLotacao);
-// routes.put('/info/lotacao/:id', InfoController.updateLotacao);
-// routes.delete('/info/lotacao/:id', InfoController.deleteLotacao);
+routes.put('/info/lotacao/:id_lotacao', InfoController.LotacaoController.updateLotacao);
+// routes.delete('/info/lotacao/:id_lotacao', InfoController.LotacaoController.deleteLotacao);
 
 routes.post('/info/batalhao', InfoController.BatalhaoController.createBatalhao);
 routes.put('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.updateBatalhao);
