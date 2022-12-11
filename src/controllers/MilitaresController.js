@@ -439,6 +439,83 @@ module.exports = {
             Militar: militar_atualizado
         });
     },
+    async updateTempoAnterior(req, res) {
+        const {id_militar_tempo_anterior} = req.params;
+        // id_tipo_tempo: int (opicional)
+        // tempo_dias: int (opicional)
+        const {id_tipo_tempo, tempo_dias} = req.body;
+        if (!id_tipo_tempo && !tempo_dias) {
+            return res.status(400).json({msg: "Ao menos uma coisa deve ser alterada!"});
+        }
+        // id_tipo_tempo deve ser um valor valido
+        if (id_tipo_tempo) {
+            const tipo_tempo_anterior = await connection('TipoTempoAnterior').select('*').where('id_tipo_tempo', '=', id_tipo_tempo);
+            if (tipo_tempo_anterior.length == 0) {
+                return res.status(400).json({msg: "Tipo de tempo anterior inválido"});
+            }
+        }
+        // tempo_dias deve ser um valor valido
+        if (tempo_dias) {
+            if (tempo_dias < 0) {
+                return res.status(400).json({msg: "Tempo de dias inválido"});
+            }
+        }
+        // verifica se o tempo anterior existe
+        let tempo_anterior = await connection('MilitarTempoAnterior').select('*').where('id_militar_tempo_anterior', '=', id_militar_tempo_anterior).first();
+        if (!tempo_anterior) {
+            return res.status(400).json({msg: "Tempo anterior não encontrado"});
+        }
+        // atualiza o tempo anterior
+        if(id_tipo_tempo) {
+            tempo_anterior.id_tipo_tempo = id_tipo_tempo;
+        }
+        if(tempo_dias) {
+            tempo_anterior.tempo_dias = tempo_dias;
+        }
+        const att = await connection('MilitarTempoAnterior').update(tempo_anterior).where('id_militar_tempo_anterior', '=', id_militar_tempo_anterior);
+
+        const tempos_anteriores = await connection('MilitarTempoAnterior')
+            .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .select('*')
+            .where('matricula_militar', '=', tempo_anterior.matricula_militar);
+
+        // atualiza a data de aposentadoria dele
+        // calcula a data de aposentadoria
+        console.log(tempo_anterior.matricula_militar);
+        const militar = await connection('Militares').select('*').where('matricula', '=', tempo_anterior.matricula_militar);
+        console.log(tempos_anteriores.map(tempo_anterior => { return { id_tipo_tempo: tempo_anterior.id_tipo_tempo, tempo_dias: tempo_anterior.tempo_dias } }));
+        const dados_aposentadoria = await calculaAposentadoria(
+            militar[0].sexo,
+            parseInt(militar[0].dt_ingresso / 1),
+            tempos_anteriores.map(tempo_anterior => { return { id_tipo_tempo: tempo_anterior.id_tipo_tempo, tempo_dias: tempo_anterior.tempo_dias } }));
+        const { dt_aposentadoria_real_timestamp, toll, temp_militar, temp_civil } = dados_aposentadoria;
+        console.log(dt_aposentadoria_real_timestamp, new Date(parseInt(dt_aposentadoria_real_timestamp * 1)).toLocaleDateString(), toll, temp_militar, temp_civil);
+
+        // adiciona a data de aposentadoria no militar
+        await connection('Militares').update({
+            dt_aposentadoria: dt_aposentadoria_real_timestamp
+        }).where('matricula', '=', tempo_anterior.matricula_militar);
+
+        const tempAtt = await connection('MilitarTempoAnterior')
+        .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+        .join("Militares", "MilitarTempoAnterior.matricula_militar", "=", "Militares.matricula")
+        .select('TipoTempoAnterior.*',"MilitarTempoAnterior.*","Militares.nome").where('id_militar_tempo_anterior', '=', id_militar_tempo_anterior).first();
+
+        const militar_atualizado = await connection('Militares').select('*')
+            .join('Posto', 'Militares.id_posto', '=', 'Posto.id_posto')
+            .join('lotacao', 'Militares.id_lotacao', '=', 'lotacao.id_lotacao')
+            .leftJoin('Comportamento', 'Militares.id_comportamento', '=', 'Comportamento.id_comportamento')
+            .leftJoin('MilitarTempoAnterior', 'Militares.matricula', '=', 'MilitarTempoAnterior.matricula_militar')
+            .leftJoin('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .leftJoin("Cidade as CidadeLotacao", "lotacao.id_cidade", "=", "CidadeLotacao.id_cidade")
+            .where('matricula', '=', tempo_anterior.matricula_militar).first();
+
+        return res.json({
+            TemposAteriores: tempos_anteriores,
+            Militar: militar_atualizado
+        });
+        
+    },
     async addRestricao(req, res) {
         const { matricula } = req.params;
         // id_tipo_restricao: int (obrigatorio)
