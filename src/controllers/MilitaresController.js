@@ -246,6 +246,7 @@ module.exports = {
         // // cada objeto deve ter os seguintes dados:
         // // // id_tipo_tempo_anterior: int (obrigatorio)
         // // // tempo_dias: int (obrigatorio)
+        // tenho que adicionar a lista de cursos tb...
         let { nome, sexo, id_posto, antiguidade, id_lotacao, dt_ingresso, dt_nascimento, licencas_esp_acc, id_comportamento, endereco, ferias, img_perfil, lista_de_tempos_anteriores } = req.body;
         // o dt_aposentadoria é calculado depois usando os tempos anteriores e a data de ingresso
 
