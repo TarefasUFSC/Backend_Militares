@@ -3,6 +3,13 @@ const connection = require("../database/connection");
 
 // dt_theoretical_retirement,dt_entry,min_mili_time_years,max_civil_time_years,tmp_civil,tmp_military
 async function calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, min_mili_time_years, max_civil_time_years, temp_civil, temp_militar) {
+    console.log("dt_aposentadoria_teorica: " + dt_aposentadoria_teorica.toLocaleDateString());
+    console.log("dt_ingresso: " + dt_ingresso.toLocaleDateString());
+    console.log("min_mili_time_years: " + min_mili_time_years);
+    console.log("max_civil_time_years: " + max_civil_time_years);
+    console.log("temp_civil: " + temp_civil);
+    console.log("temp_militar: " + temp_militar);
+    
     let toll_4_months_years = 0;
     if (max_civil_time_years) {
         if (temp_civil > 365.25 * max_civil_time_years) {
@@ -11,7 +18,7 @@ async function calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso
     }
     // time_spent_on_military (em dias) = (dt_theoretical_retirement  - dt_entry ) (em dias) - tmp_military (em dias)
     const diffTime = Math.abs(dt_aposentadoria_teorica.getTime()/1000 - dt_ingresso.getTime()/1000 );
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil(diffTime / ( 60 * 60 * 24));
     let tempo_total_militar = diffDays - temp_militar;
     if (min_mili_time_years) {
         if (tempo_total_militar < 365.25 * min_mili_time_years) {
@@ -27,9 +34,11 @@ async function calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso
     // subtrai eles da data de aposentadoria em timestamp
     let temp_civil_segundos = temp_civil * 24 * 60 * 60;
     let temp_militar_segundos = temp_militar * 24 * 60 * 60;
-    let dt_aposentadoria_teorica_timestamp = dt_aposentadoria_teorica.getTime() / 1000;
+    let dt_aposentadoria_teorica_timestamp = parseInt(dt_aposentadoria_teorica.getTime()/1000);
+    console.log("dt_aposentadoria_teorica_timestamp: " + dt_aposentadoria_teorica_timestamp, "dt_aposentadoria_teorica: " + new Date(parseInt(dt_aposentadoria_teorica_timestamp )).toLocaleDateString());
     let dt_aposentadoria_real_timestamp = dt_aposentadoria_teorica_timestamp - temp_civil_segundos - temp_militar_segundos;
-    let dt_aposentadoria_real = new Date(dt_aposentadoria_real_timestamp * 1000);
+    let dt_aposentadoria_real = new Date(dt_aposentadoria_real_timestamp *1000);
+    console.log("dt_aposentadoria_real_timestamp: " + dt_aposentadoria_real_timestamp, "dt_aposentadoria_real: " + dt_aposentadoria_real.toLocaleDateString());
 
     return {
         dt_aposentadoria_real: dt_aposentadoria_real,
@@ -38,8 +47,11 @@ async function calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso
 
 }
 
-//sx, dt_entry, ids_tipo, qtds_dias, df_tipo_tempo
+// sexo: Masculino ou Feminino
+// dt_ingresso: timestamp em SEGUNDOS
+// lista_de_tempos_anteriores: [{id_tipo_tempo: int, tempo_dias: int}]
 async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriores) {
+    console.log("Calculando aposentadoria para o militar de sexo " + sexo + " e data de ingresso " + new Date(parseInt(dt_ingresso*1000)).toLocaleDateString());
     if (!lista_de_tempos_anteriores) {
         lista_de_tempos_anteriores = [];
     }
@@ -69,7 +81,8 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     let dt_ret = new Date();
 
     // calcula a aposentadoria teorica (soma 35 anos)
-    let dt_aposentadoria_teorica = new Date(dt_ingresso * 1000);
+    let dt_aposentadoria_teorica = new Date(parseInt(dt_ingresso.getTime()));
+    console.log("dt_aposentadoria_teorica: " + dt_aposentadoria_teorica.toLocaleDateString());
     dt_aposentadoria_teorica.setFullYear(dt_aposentadoria_teorica.getFullYear() + 35);
 
     let toll_4_months_years = 0;
@@ -82,16 +95,19 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     for (let i = 0; i < lista_de_tempos_anteriores.length; i++) {
         let item = lista_de_tempos_anteriores[i];
         // pega no banco o tipo
-        let tipo = await connection("TipoTempoAnterior").where("id_tipo_tempo", item.id_tipo).select("is_militar").first();
+        console.log(item);
+        let tipo = await connection("TipoTempoAnterior").where("id_tipo_tempo", item.id_tipo_tempo).select("is_militar").first();
         if (tipo.is_militar) {
-            temp_militar += item.qtd_dias;
+            temp_militar += item.tempo_dias;
         }
         else {
-            temp_civil += item.qtd_dias;
+            temp_civil += item.tempo_dias;
         }
     }
+    console.log("Tempo militar: " + temp_militar);
+    console.log("Tempo civil: " + temp_civil);
 
-    if (sexo = "M") {
+    if (sexo = "Masculino") {
         if (dt_ingresso <= dt_19_12_2013) {
             let dt = await calculaAposentadoriaTeorica(dt_aposentadoria_teorica, dt_ingresso, null, null, temp_civil, temp_militar)
             dt_aposentadoria_teorica = dt.dt_aposentadoria_real;
@@ -123,10 +139,11 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     }
 
     // calcula o pedágio de 17%
+    console.log("aaaa","dt_aposentadoria_teorica: " + dt_aposentadoria_teorica.toLocaleDateString(), "dt_aposentadoria_teorica_timestamp: " + parseInt(dt_aposentadoria_teorica.getTime()/1000));
     if (dt_aposentadoria_teorica > dt_31_12_2021) {
 
-        const diffTime = Math.abs(dt_aposentadoria_teorica - dt_01_01_2022);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diffTime = Math.abs(dt_aposentadoria_teorica.getTime()/1000 - dt_01_01_2022.getTime()/1000);
+        const diffDays = Math.ceil(diffTime / (60 * 60 * 24));
         toll_17_percent = diffDays * 0.17;
     } else {
         toll_17_percent = 0;
@@ -142,9 +159,10 @@ async function calculaAposentadoria(sexo, dt_ingresso, lista_de_tempos_anteriore
     // calcula a aposentadoria real, levando os pedágios, ja em dias, em consideração
     // transorma os pedagios em segundos
     // transforma a data de aposentadoria teorica em timestamp em segundos
-    let dt_aposentadoria_teorica_timestamp = dt_aposentadoria_teorica.getTime() / 1000;
+    let dt_aposentadoria_teorica_timestamp = parseInt(dt_aposentadoria_teorica.getTime()/1000);
     let toll_4_months_seconds = toll_4_months * 86400 * 30;
     let toll_17_percent_seconds = toll_17_percent * 86400;
+    console.log("toll_4_months_seconds: " + toll_4_months_seconds, "toll_17_percent_seconds: " + toll_17_percent_seconds);
     let dt_aposentadoria_real_timestamp = dt_aposentadoria_teorica_timestamp + toll_4_months_seconds + toll_17_percent_seconds;
 
     return {
@@ -246,7 +264,6 @@ module.exports = {
         // // cada objeto deve ter os seguintes dados:
         // // // id_tipo_tempo: int (obrigatorio)
         // // // tempo_dias: int (obrigatorio)
-        // tenho que adicionar a lista de cursos tb...
         let { nome, sexo, id_posto, antiguidade, id_lotacao, dt_ingresso, dt_nascimento, licencas_esp_acc, id_comportamento, endereco, ferias, img_perfil, lista_de_tempos_anteriores } = req.body;
         // o dt_aposentadoria é calculado depois usando os tempos anteriores e a data de ingresso
 
@@ -340,7 +357,7 @@ module.exports = {
 
         // adiciona a data de aposentadoria no militar
         await connection('Militares').update({
-            dt_aposentadoria: dt_aposentadoria_real_timestamp
+            dt_aposentadoria: parseInt(dt_aposentadoria_real_timestamp)
         }).where('matricula', '=', matricula_militar);
 
         // retorna o militar criado
@@ -387,10 +404,37 @@ module.exports = {
         if(tempo_anterior.length == 0){ 
             return res.status(400).json({msg: "Erro ao adicionar tempo anterior"});
         }
-        // retorna a lista de tempos anteriores do militar
-        const tempos_anteriores = await connection('MilitarTempoAnterior').select('*')
+    
+        // pega os tempos anteriores do militar
+        const tempos_anteriores = await connection('MilitarTempoAnterior')
             .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
-            .where('MilitarTempoAnterior.matricula_militar', '=', matricula);
-        return res.json({TemposAteriores: tempos_anteriores});
+            .select('*')
+            .where('matricula_militar', '=', matricula);
+    
+        // atualiza a data de aposentadoria dele
+        // calcula a data de aposentadoria
+        console.log(tempos_anteriores.map(tempo_anterior =>  {return {id_tipo_tempo:tempo_anterior.id_tipo_tempo, tempo_dias:tempo_anterior.tempo_dias}}));
+        const dados_aposentadoria = await calculaAposentadoria(
+            militar[0].sexo, 
+            parseInt(militar[0].dt_ingresso/1), 
+            tempos_anteriores.map(tempo_anterior =>  {return {id_tipo_tempo:tempo_anterior.id_tipo_tempo, tempo_dias:tempo_anterior.tempo_dias}}));
+        const { dt_aposentadoria_real_timestamp, toll, temp_militar, temp_civil } = dados_aposentadoria;
+        console.log(dt_aposentadoria_real_timestamp,new Date(parseInt(dt_aposentadoria_real_timestamp*1)).toLocaleDateString(), toll, temp_militar, temp_civil);
+
+        // adiciona a data de aposentadoria no militar
+        await connection('Militares').update({
+            dt_aposentadoria: dt_aposentadoria_real_timestamp
+        }).where('matricula', '=', matricula);
+        const militar_atualizado = await connection('Militares').select('*')
+            .join('Posto', 'Militares.id_posto', '=', 'Posto.id_posto')
+            .join('lotacao', 'Militares.id_lotacao', '=', 'lotacao.id_lotacao')
+            .leftJoin('Comportamento', 'Militares.id_comportamento', '=', 'Comportamento.id_comportamento')
+            .leftJoin('MilitarTempoAnterior', 'Militares.matricula', '=', 'MilitarTempoAnterior.matricula_militar')
+            .leftJoin('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .leftJoin("Cidade as CidadeLotacao", "lotacao.id_cidade", "=", "CidadeLotacao.id_cidade")
+            .where('matricula', '=', matricula).first();
+        
+        return res.json({TemposAteriores: tempos_anteriores,
+        Militar: militar_atualizado});
     },
 }
