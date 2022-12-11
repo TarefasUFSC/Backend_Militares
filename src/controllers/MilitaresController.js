@@ -516,6 +516,44 @@ module.exports = {
         });
         
     },
+    async deleteTempoAnterior(req, res) {
+        const { id_militar_tempo_anterior } = req.params;
+        // verifica se o tempo anterior existe
+        const tempo_anterior = await connection('MilitarTempoAnterior').select('*').where('id_militar_tempo_anterior', '=', id_militar_tempo_anterior).first();
+        if (!tempo_anterior) {
+            return res.status(400).json({ msg: "Tempo anterior não encontrado" });
+        }
+        // deleta o tempo anterior
+        await connection('MilitarTempoAnterior').delete().where('id_militar_tempo_anterior', '=', id_militar_tempo_anterior);
+        // atualiza a data de aposentadoria dele
+        // calcula a data de aposentadoria
+        const militar = await connection('Militares').select('*').where('matricula', '=', tempo_anterior.matricula_militar);
+        const tempos_anteriores = await connection('MilitarTempoAnterior')
+            .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .select('TipoTempoAnterior.*',"MilitarTempoAnterior.*").where('matricula_militar', '=', tempo_anterior.matricula_militar);
+        const dados_aposentadoria = await calculaAposentadoria(
+            militar[0].sexo,
+            parseInt(militar[0].dt_ingresso / 1),
+            tempos_anteriores.map(tempo_anterior => { return { id_tipo_tempo: tempo_anterior.id_tipo_tempo, tempo_dias: tempo_anterior.tempo_dias } }));
+        const { dt_aposentadoria_real_timestamp, toll, temp_militar, temp_civil } = dados_aposentadoria;
+        console.log(dt_aposentadoria_real_timestamp, new Date(parseInt(dt_aposentadoria_real_timestamp * 1)).toLocaleDateString(), toll, temp_militar, temp_civil);
+        // adiciona a data de aposentadoria no militar
+        await connection('Militares').update({
+            dt_aposentadoria: dt_aposentadoria_real_timestamp
+        }).where('matricula', '=', tempo_anterior.matricula_militar);
+        const militar_atualizado = await connection('Militares').select('*')
+            .join('Posto', 'Militares.id_posto', '=', 'Posto.id_posto')
+            .join('lotacao', 'Militares.id_lotacao', '=', 'lotacao.id_lotacao')
+            .leftJoin('Comportamento', 'Militares.id_comportamento', '=', 'Comportamento.id_comportamento')
+            .leftJoin('MilitarTempoAnterior', 'Militares.matricula', '=', 'MilitarTempoAnterior.matricula_militar')
+            .leftJoin('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .leftJoin("Cidade as CidadeLotacao", "lotacao.id_cidade", "=", "CidadeLotacao.id_cidade")
+            .where('matricula', '=', tempo_anterior.matricula_militar).first();
+        return res.json({
+            TemposAteriores: tempos_anteriores,
+            Militar: militar_atualizado
+        });
+    },
     async addRestricao(req, res) {
 
         const { matricula } = req.params;

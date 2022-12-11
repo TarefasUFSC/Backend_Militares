@@ -12,7 +12,7 @@ routes.post("/militares", MilitaresController.createMilitar);
 routes.post('/militares/tempo_anterior/:matricula', MilitaresController.addTempoAnterior);
 routes.put('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresController.updateTempoAnterior);
 routes.get('/militares/tempo_anterior/:matricula', MilitaresController.getTempoAnterior);
-// routes.delete('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresController.deleteTempoAnterior);
+routes.delete('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresController.deleteTempoAnterior);
 routes.post('/militares/restricao/:matricula', MilitaresController.addRestricao);
 // routes.put('/militares/restricao/:id', MilitaresController.updateRestricao);
 // routes.delete('/militares/restricao/:id', MilitaresController.deleteRestricao);
