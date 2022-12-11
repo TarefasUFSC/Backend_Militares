@@ -71,5 +71,28 @@ module.exports = {
             .where('nm_tipo_restricao', nm_tipo_restricao)
             .select("*");
         return res.json({ TipoeRestricao: restrCriada[0] });
+    },
+    async deleteTipoRestricao(req, res) {
+        const { id_tipo_restricao } = req.params;
+
+        // Verifica se o tipo de restrição existe
+        const restriExistente = await connection('TipoRestricao')
+            .where('id_tipo_restricao', id_tipo_restricao)
+            .select('*')
+            .first();
+        
+        if (!restriExistente) {
+            return res.status(400).json({ msg: "Tipo de restrição não existe" });
+        }
+
+        // deleta o tipo de restrição
+        const tipoRestDel = await connection('TipoRestricao')
+            .where('id_tipo_restricao', id_tipo_restricao)
+            .delete();
+        if (tipoRestDel === 0) {
+            return res.status(400).json({ msg: "Não foi possível deletar o tipo de restrição" });
+        }
+        return res.json({ TipoRestricao:restriExistente });
+
     }
 }
