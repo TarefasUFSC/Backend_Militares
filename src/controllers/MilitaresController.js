@@ -517,6 +517,7 @@ module.exports = {
         
     },
     async addRestricao(req, res) {
+
         const { matricula } = req.params;
         // id_tipo_restricao: int (obrigatorio)
         // dt_fim: timestamp segundos (obrigatorio)
@@ -557,5 +558,20 @@ module.exports = {
 
         return res.json({ Restricoes: restricoes });
 
+    },
+    async deleteRestricao(req, res) {
+    },
+    async getTempoAnterior(req, res) {
+        const { matricula } = req.params;
+        // verifica se o militar existe
+        const militar = await connection('Militares').select('*').where('matricula', '=', matricula);
+        if (militar.length == 0) {
+            return res.status(400).json({ msg: "Militar não encontrado" });
+        }
+        // pega o tempo anterior do militar
+        const tempo_anterior = await connection('MilitarTempoAnterior')
+            .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .select('*').where('matricula_militar', '=', matricula);
+        return res.json({ TempoAnterior: tempo_anterior });
     },
 }
