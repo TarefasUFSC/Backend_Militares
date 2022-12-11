@@ -6,6 +6,11 @@ module.exports = {
     // },
     async createBatalhao(req, res) {
         const { nm_batalhao } = req.body;
+
+        if(!nm_batalhao){
+            return res.status(400).json({ msg: 'Nome do batalhao nao informado' });
+        }
+
         // verifica se ja existe um batalhao com o mesmo nome
         const batalhao = await connection('Batalhao').where('nm_batalhao', nm_batalhao).select('Batalhao.nm_batalhao').first();
         if (batalhao) {
@@ -29,6 +34,12 @@ module.exports = {
 
         // nm_batalhao: string (obrigatorio)
         const { nm_batalhao } = req.body;
+
+        if(!nm_batalhao){
+            return res.status(400).json({ msg: 'Nome do batalhao nao informado' });
+        }
+
+
         // verifica se o batalhao existe
         const batalhao = await connection('Batalhao').where('id_batalhao', id_batalhao).select('Batalhao.nm_batalhao').first();
         if (!batalhao) {

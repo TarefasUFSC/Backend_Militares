@@ -32,6 +32,9 @@ module.exports = {
         // faz uma lista comos dados dos cursos recem adicionados
         let data = {}
         for (let i = 0; i < cursosLista.length; i++) {
+            if(!cursoLista[i].id_tipo_curso || !cursoLista[i].nm_curso){
+                return res.status(400).json({ msg: 'Um ou mais cursos não possuem id_tipo_curso ou nm_curso' });
+            }
             const cursoN = await connection('Curso').select("*").join('TipoCurso', 'Curso.id_tipo_curso', '=', 'TipoCurso.id_tipo_curso').where('nm_curso', cursosLista[i].nm_curso).andWhere('Curso.id_tipo_curso', cursosLista[i].id_tipo_curso);
             data[cursoN[0].nm_curso] = cursoN[0];
         }

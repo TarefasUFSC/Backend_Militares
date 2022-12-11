@@ -11,6 +11,11 @@ module.exports = {
         // nm_tipo_tempo: string (obrigatorio)
         // is_militar: boolean (obrigatorio)
         const { nm_tipo_tempo, is_militar } = req.body;
+
+        if (nm_tipo_tempo === undefined || is_militar === undefined) {
+            return res.status(400).json({ msg: 'O campo nome do tempo anterior não pode ser vazio' });
+        }
+
         // verifica se ja existe um tempo anterior com o mesmo nome
         const tempoAnterior = await connection('TipoTempoAnterior').where('nm_tipo_tempo', nm_tipo_tempo).select('TipoTempoAnterior.nm_tipo_tempo').first();
         if (tempoAnterior) {
