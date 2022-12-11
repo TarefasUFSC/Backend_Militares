@@ -244,7 +244,7 @@ module.exports = {
         // img_perfil: string (opcional - default em null)
         // lista_de_tempos_anteriores: array de objetos (opcional - default em null)
         // // cada objeto deve ter os seguintes dados:
-        // // // id_tipo_tempo_anterior: int (obrigatorio)
+        // // // id_tipo_tempo: int (obrigatorio)
         // // // tempo_dias: int (obrigatorio)
         // tenho que adicionar a lista de cursos tb...
         let { nome, sexo, id_posto, antiguidade, id_lotacao, dt_ingresso, dt_nascimento, licencas_esp_acc, id_comportamento, endereco, ferias, img_perfil, lista_de_tempos_anteriores } = req.body;
@@ -325,10 +325,10 @@ module.exports = {
         // adiciona os tempos anteriores no banco
         if (lista_de_tempos_anteriores) {
             lista_de_tempos_anteriores.forEach(async tempo_anterior => {
-                const { id_tipo_tempo_anterior, tempo_dias } = tempo_anterior;
+                const { id_tipo_tempo, tempo_dias } = tempo_anterior;
                 await connection('MilitarTempoAnterior').insert({
                     matricula_militar,
-                    id_tipo_tempo_anterior,
+                    id_tipo_tempo,
                     tempo_dias
                 });
             });
@@ -354,5 +354,43 @@ module.exports = {
             .where('matricula', '=', matricula_militar);
 
         return res.json({ militar: militar_criado });
-    }
+    },
+    async addTempoAnterior(req, res) {
+        const {matricula} = req.params;
+        // id_tipo_tempo: int (obrigatorio)
+        // tempo_dias: int (obrigatorio)
+        const {id_tipo_tempo, tempo_dias} = req.body;
+        if(!id_tipo_tempo || !tempo_dias){
+            return res.status(400).json({msg: "Dados obrigatórios não foram preenchidos"});
+        }
+        // id_tipo_tempo deve ser um valor valido
+        const tipo_tempo_anterior = await connection('TipoTempoAnterior').select('*').where('id_tipo_tempo', '=', id_tipo_tempo);
+        if(tipo_tempo_anterior.length == 0){
+            return res.status(400).json({msg: "Tipo de tempo anterior inválido"});
+        }
+        // tempo_dias deve ser um valor valido
+        if(tempo_dias < 0){
+            return res.status(400).json({msg: "Tempo anterior inválido"});
+        }
+        // militar deve existir
+        const militar = await connection('Militares').select('*').where('matricula', '=', matricula);
+        if(militar.length == 0){
+            return res.status(400).json({msg: "Militar não encontrado"});
+        }
+        // adiciona o tempo anterior no banco
+        const tempo_anterior = await connection('MilitarTempoAnterior').insert({
+            matricula_militar: matricula,
+            id_tipo_tempo,
+            tempo_dias
+        });
+        // verifica se deu certo
+        if(tempo_anterior.length == 0){ 
+            return res.status(400).json({msg: "Erro ao adicionar tempo anterior"});
+        }
+        // retorna a lista de tempos anteriores do militar
+        const tempos_anteriores = await connection('MilitarTempoAnterior').select('*')
+            .join('TipoTempoAnterior', 'MilitarTempoAnterior.id_tipo_tempo', '=', 'TipoTempoAnterior.id_tipo_tempo')
+            .where('MilitarTempoAnterior.matricula_militar', '=', matricula);
+        return res.json({TemposAteriores: tempos_anteriores});
+    },
 }

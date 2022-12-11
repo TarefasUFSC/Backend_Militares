@@ -9,10 +9,10 @@ const AlocacaoController = require('./controllers/AlocacaoController');
 routes.get("/militares/aposentadoria", MilitaresController.getAposentadoriaMilitares); // aqui vai passar os filtros na query
 routes.get("/militares/:matricula", MilitaresController.getMilitarPorMatricula);
 routes.post("/militares", MilitaresController.createMilitar);
-// routes.post('militares/tempo_anterior/:matricula', MilitaresController.addTempoAnterior);
-// routes.post('militares/restricao/:matricula', MilitaresController.addRestricao);
-// routes.put('militares/restricao/:id', MilitaresController.updateRestricao);
-// routes.delete('militares/restricao/:id', MilitaresController.deleteRestricao);
+routes.post('/militares/tempo_anterior/:matricula', MilitaresController.addTempoAnterior);
+// routes.post('/militares/restricao/:matricula', MilitaresController.addRestricao);
+// routes.put('/militares/restricao/:id', MilitaresController.updateRestricao);
+// routes.delete('/militares/restricao/:id', MilitaresController.deleteRestricao);
 
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
