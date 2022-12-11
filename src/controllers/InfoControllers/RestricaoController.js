@@ -46,5 +46,30 @@ module.exports = {
         
 
         return res.json({ TipoeRestricao: restrAtt[0] });
+    },
+    async createTipoRestricao(req, res) {
+        const { nm_tipo_restricao } = req.body;
+        if (nm_tipo_restricao === undefined) {
+            return res.status(400).json({ msg: "O campo nome da restrição não pode ser vazio" });
+        }
+        // verifica se ja existe alguma resrição com o novo nome
+        const restriExistente = await connection('TipoRestricao')
+            .where('nm_tipo_restricao', nm_tipo_restricao)
+            .select('TipoRestricao.nm_tipo_restricao')
+            .first();
+        if (restriExistente) {
+            return res.status(400).json({ msg: "Já existe uma restrição com esse nome" });
+        }
+
+        // Cria o tipo de restrição
+        const tiporestricao = await connection('TipoRestricao')
+            .insert({ nm_tipo_restricao: nm_tipo_restricao });
+        if (tiporestricao === 0) {
+            return res.status(400).json({ msg: "Não foi possível criar o tipo de restrição" });
+        }
+        const restrCriada = await connection('TipoRestricao')
+            .where('nm_tipo_restricao', nm_tipo_restricao)
+            .select("*");
+        return res.json({ TipoeRestricao: restrCriada[0] });
     }
 }
