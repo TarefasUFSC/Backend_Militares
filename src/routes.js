@@ -60,7 +60,7 @@ routes.delete('/info/lotacao/:id_lotacao', InfoController.LotacaoController.dele
 routes.post('/info/batalhao', InfoController.BatalhaoController.createBatalhao);
 routes.put('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.updateBatalhao);
 routes.delete('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.deleteBatalhao);
-routes.get('/info/batalhoes', InfoController.BatalhaoController.getBatalhoes);
+routes.get('/info/batalhao', InfoController.BatalhaoController.getBatalhoes);
 
 
 module.exports = routes;
