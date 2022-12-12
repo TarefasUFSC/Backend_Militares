@@ -43,7 +43,7 @@ routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorCo
 routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 
-//routes.post("/info/posto", InfoController.PostoController.addPosto);
+//routes.post("/info/posto", InfoController.PostoController.createPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
 
 
