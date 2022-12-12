@@ -42,8 +42,9 @@ routes.post('/info/tempo_anterior', InfoController.TempoAnteriorController.creat
 routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.updateTempoAnterior);
 routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
-routes.get("/info/idioma", InfoController.getLinguas);
-routes.post("/info/idioma", InfoController.addLinguas);
+
+//routes.post("/info/posto", InfoController.PostoController.createPosto);
+routes.get('/info/posto', InfoController.PostoController.getPostos);
 
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
@@ -56,9 +57,10 @@ routes.post('/info/lotacao', InfoController.LotacaoController.createLotacao);
 routes.put('/info/lotacao/:id_lotacao', InfoController.LotacaoController.updateLotacao);
 routes.delete('/info/lotacao/:id_lotacao', InfoController.LotacaoController.deleteLotacao);
 
-routes.get('/info/postos', InfoController.getPostos);
+routes.post('/info/batalhao', InfoController.BatalhaoController.createBatalhao);
+routes.put('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.updateBatalhao);
+routes.delete('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.deleteBatalhao);
+routes.get('/info/batalhoes', InfoController.BatalhaoController.getBatalhoes);
 
-
-routes.get('/info/tipo_restricao', InfoController.getTipoRestricao);
 
 module.exports = routes;
