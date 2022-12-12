@@ -1,3 +1,4 @@
+const { Database } = require("sqlite3");
 const connection = require("../database/connection");
 
 const ResumoController = require("./InfoControllers/ResumoController");
@@ -9,8 +10,8 @@ const TempoAnteriorController = require("./InfoControllers/TempoAnteriorControll
 const RestricaoController = require("./InfoControllers/RestricaoController");
 const BatalhaoController = require("./InfoControllers/BatalhaoController");
 const LotacaoController = require("./InfoControllers/LotacaoController");
-module.exports = {
 
+module.exports = {
     ResumoController,
     CursoController,
     IdiomaController,
@@ -20,4 +21,5 @@ module.exports = {
     RestricaoController,
     BatalhaoController,
     LotacaoController
+
 }

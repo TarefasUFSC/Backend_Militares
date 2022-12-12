@@ -1,9 +1,11 @@
 const connection = require("../../database/connection");
 
 module.exports = {
-    // async getBatalhoes(req, res) {
-    //     return res.json({ batalhoes: await connection('Batalhao').select('Batalhao.nm_batalhao', 'Batalhao.id_batalhao').select('Batalhao.id_batalhao') });
-    // },
+    async getBatalhoes(req, res){
+        const batalhao = await connection('Lotacao')
+                .select('Lotacao.id_batalhao');
+        return res.json({batalhao:batalhao});
+      },
     async createBatalhao(req, res) {
         const { nm_batalhao } = req.body;
 
