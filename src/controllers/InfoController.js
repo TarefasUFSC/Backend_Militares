@@ -21,4 +21,5 @@ module.exports = {
     RestricaoController,
     BatalhaoController,
     LotacaoController
+
 }

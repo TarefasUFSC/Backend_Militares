@@ -43,8 +43,11 @@ routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorCo
 routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 
-routes.post("/info/posto", InfoController.addPosto);
+//routes.post("/info/posto", InfoController.PostoController.addPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
+
+routes.get("/info/idioma", InfoController.getLinguas);
+routes.post("/info/idioma", InfoController.addLinguas);
 
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
@@ -61,5 +64,6 @@ routes.post('/info/batalhao', InfoController.BatalhaoController.createBatalhao);
 routes.put('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.updateBatalhao);
 routes.delete('/info/batalhao/:id_batalhao', InfoController.BatalhaoController.deleteBatalhao);
 routes.get('/info/batalhoes', InfoController.BatalhaoController.getBatalhoes);
+
 
 module.exports = routes;
