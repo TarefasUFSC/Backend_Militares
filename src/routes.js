@@ -46,9 +46,6 @@ routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnterio
 //routes.post("/info/posto", InfoController.PostoController.addPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
 
-routes.get("/info/idioma", InfoController.getLinguas);
-routes.post("/info/idioma", InfoController.addLinguas);
-
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
 routes.put('/info/tipo_restricao/:id_tipo_restricao', InfoController.RestricaoController.updateTipoRestricao);
