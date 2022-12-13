@@ -23,7 +23,10 @@ routes.post("/info/idioma", InfoController.addLinguas);
 routes.get('/info/curso', InfoController.getCursos);
 routes.post("/info/curso", InfoController.createCursos);
 routes.get('/info/curso', InfoController.getCursos);
+routes.get('/info/curso/tipo', InfoController.getTipoCursos);
 routes.post('/info/curso/tipo', InfoController.createTipoCurso);
+routes.delete('/info/curso/tipo/:id', InfoController.deleteTipoCurso);
+routes.put('/info/curso/tipo/:id', InfoController.updateTipoCurso);
 
 
 module.exports = routes;
