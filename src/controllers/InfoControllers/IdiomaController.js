@@ -38,4 +38,49 @@ module.exports = {
         console.log(data);
         return res.json({ idioma_adicionados: data });
     },
+    async atualizarIdioma(req, res) {
+        const { id_idioma } = req.params;
+        // nm_idioma: string (obrigatorio)
+        const { nm_idioma } = req.body;
+
+        if(!nm_idioma){
+            return res.status(400).json({ msg: 'Nome do idioma nao informado' });
+        }
+        // verifica se o idioma existe
+        const idioma = await connection('Idioma').where('id_idioma', id_idioma).select('Idioma.nm_idioma').first();
+        if (!idioma) {
+            return res.status(400).json({ msg: 'Idioma nao existe' });
+        }
+        // verifica se ja existe um idioma com o mesmo nome
+        const idioma2 = await connection('Idioma').where('nm_idioma', nm_idioma).select('Idioma.nm_idioma').first();    
+        if (idioma2) {
+            return res.status(400).json({ msg: 'Idioma com o mesmo nome ja existe' });
+        }
+        // atualiza o idioma
+        const id_idioma2 = await connection('Idioma').where('id_idioma', id_idioma).update({
+            nm_idioma,
+        });
+        if(!id_idioma2){
+            return res.status(400).json({ msg: 'Erro ao atualizar idioma' });
+        }
+        return res.json({ Idioma: {
+            id_idioma: id_idioma,
+            nm_idioma: nm_idioma,
+        } });
+    },
+    async deleteIdioma(req, res) {
+        const { id_idioma } = req.params;
+        // verifica se o Idioma existe
+        const idioma = await connection('Idioma').where('id_idioma', id_idioma).select('Idioma.id_idioma');
+        if (!idioma) {
+            return res.status(400).json({ msg: 'idioma nao existe' });
+        }
+        // deleta o Idioma
+        const idiomaDeletado = await connection('Idioma').where('id_idioma', id_idioma).delete();
+        if (!idiomaDeletado) {
+            return res.status(400).json({ msg: 'Erro ao deletar idioma' });
+        }
+        return res.json({ msg: 'Idioma deletado com sucesso' });
+
+    }
 }

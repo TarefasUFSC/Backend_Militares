@@ -26,12 +26,18 @@ routes.get('/info/resumo', InfoController.ResumoController.getResumo);
 
 routes.get("/info/idioma", InfoController.IdiomaController.getIdiomas);
 routes.post("/info/idioma", InfoController.IdiomaController.addIdiomas);
+routes.put('/info/idioma/:id_idioma', InfoController.IdiomaController.atualizarIdioma);
+routes.delete('/info/idioma/:id_idioma', InfoController.IdiomaController.deleteIdioma);
 
 routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.post("/info/curso", InfoController.CursoController.createCursos);
 routes.get('/info/curso', InfoController.CursoController.getCursos);
+routes.delete('/info/curso/:id_curso', InfoController.CursoController.deleteCurso);
+routes.put('/info/curso/:id_curso', InfoController.CursoController.atualizarCurso);
 routes.get('/info/curso/tipo', InfoController.CursoController.getTipoCurso);
 routes.post('/info/curso/tipo', InfoController.CursoController.createTipoCurso);
+
+
 
 routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
 
@@ -43,7 +49,7 @@ routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorCo
 routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 
-//routes.post("/info/posto", InfoController.PostoController.createPosto);
+routes.post("/info/posto", InfoController.PostoController.createPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
 
 

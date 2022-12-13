@@ -85,4 +85,49 @@ module.exports = {
         return res.json({ tipo_curso_adicionados: data });
 
     },
+    async deleteCurso(req, res) {
+        const { id_curso } = req.params;
+        // verifica se o Curso existe
+        const curso = await connection('Curso').where('id_curso', id_curso).select('Curso.id_curso').first();
+        if (!curso) {
+            return res.status(400).json({ msg: 'curso nao existe' });
+        }
+        // deleta o Curso
+        const cursoDeletado = await connection('Curso').where('id_curso', id_curso).delete();
+        if (!cursoDeletado) {
+            return res.status(400).json({ msg: 'Erro ao deletar curso' });
+        }
+        return res.json({ msg: 'Curso deletado com sucesso' });
+
+    },
+    async atualizarCurso(req, res) {
+        const { id_curso } = req.params;
+        // nm_curso: string (obrigatorio)
+        const { nm_curso } = req.body;
+
+        if(!nm_curso){
+            return res.status(400).json({ msg: 'Nome do curso nao informado' });
+        }
+        // verifica se o curso existe
+        const curso = await connection('Curso').where('id_curso', id_curso).select('Curso.nm_curso').first();
+        if (!curso) {
+            return res.status(400).json({ msg: 'Curso nao existe' });
+        }
+        // verifica se ja existe um curso com o mesmo nome
+        const curso2 = await connection('Curso').where('nm_curso', nm_curso).select('Curso.nm_curso').first();    
+        if (curso2) {
+            return res.status(400).json({ msg: 'Curso com o mesmo nome ja existe' });
+        }
+        // atualiza o curso
+        const id_curso2 = await connection('Curso').where('id_curso', id_curso).update({
+            nm_curso,
+        });
+        if(!id_curso2){
+            return res.status(400).json({ msg: 'Erro ao atualizar Curso' });
+        }
+        return res.json({ curso: {
+            id_curso: id_curso,
+            nm_curso: nm_curso,
+        } });
+    }
 };
