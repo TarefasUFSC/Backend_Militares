@@ -281,6 +281,10 @@ module.exports = {
 
             return res.status(400).json({ msg: "Dados obrigatórios não foram preenchidos" });
         }
+        if(sexo != "Masculino" && sexo != "Feminino"){
+            return res.status(400).json({ msg: "Sexo inválido, deve ser 'Masculino' ou 'Feminino'" });
+        }
+
         // id_posto é obrigatorio e deve ser um valor valido
         const posto = await connection('Posto').select('*').where('id_posto', '=', id_posto);
         if (posto.length == 0) {
