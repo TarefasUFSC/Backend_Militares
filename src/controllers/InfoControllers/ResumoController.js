@@ -158,7 +158,7 @@ async function get_language_data() {
     // conta quantas pessoas de cada idioma existem na tabela militaridioma
     // grupo por idioma
 
-    const militares = await connection('militares').join('militaridioma', 'militares.matricula', '=', 'militaridioma.matricula_militar').join('Idioma', 'militaridioma.id_idioma', '=', 'Idioma.id_idioma').count('Idioma.nm_idioma as qtd').groupBy('Idioma.nm_idioma').select('Idioma.nm_idioma');
+    const militares = await connection('militares').join('militaridioma', 'militares.matricula', '=', 'militaridioma.matricula_militar').join('Idioma', 'militaridioma.id_idioma', '=', 'Idioma.id_idioma').count('Idioma.nm_idioma as qtd').groupBy('Idioma.nm_idioma').select('Idioma.nm_idioma',   'Idioma.id_idioma');
     return militares;
 }
 
