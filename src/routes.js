@@ -15,7 +15,7 @@ routes.get('/militares/tempo_anterior/:matricula', MilitaresController.getTempoA
 routes.delete('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresController.deleteTempoAnterior);
 routes.post('/militares/restricao/:matricula', MilitaresController.addRestricao);
 routes.put('/militares/restricao/:id_restricao', MilitaresController.updateRestricao);
-// routes.delete('/militares/restricao/:id_restricao', MilitaresController.deleteRestricao);
+routes.delete('/militares/restricao/:id_restricao', MilitaresController.deleteRestricao);
 
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query

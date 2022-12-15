@@ -660,5 +660,22 @@ module.exports = {
         
        
 
+    },
+    async deleteRestricao(req, res) {
+        const {id_restricao} = req.params;
+        // verifica se a restrição existe
+        let restricao = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
+        if (!restricao) {
+            return res.status(400).json({ msg: "Restrição não encontrada" });
+        }
+        // deleta a restrição
+        await connection('MilitarRestricao').delete().where('id_restricao', '=', id_restricao);
+        // pega as restrições do militar
+        const restricoes = await connection('MilitarRestricao')
+            .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
+            .select('*')
+            .where('matricula_militar', '=', restricao.matricula_militar);
+
+        return res.json({ Restricoes: restricoes });
     }
 }
