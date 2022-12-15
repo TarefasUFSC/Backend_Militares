@@ -169,7 +169,7 @@ async function get_away_data() {
     // conta quantas pessoas de cada tipo de afastamento existem na tabela militarafastamento
     // grupo por tipo de afastamento
 
-    const militares = await connection('militares').join('militarafastamento', 'militares.matricula', '=', 'militarafastamento.matricula_militar').join('TipoAfastamento', 'militarafastamento.id_tipo_afastamento', '=', 'TipoAfastamento.id_tipo_afastamento').count('TipoAfastamento.nm_tipo_afastamento as qtd').groupBy('TipoAfastamento.nm_tipo_afastamento').select('TipoAfastamento.nm_tipo_afastamento');
+    const militares = await connection('militares').join('militarafastamento', 'militares.matricula', '=', 'militarafastamento.matricula_militar').join('TipoAfastamento', 'militarafastamento.id_tipo_afastamento', '=', 'TipoAfastamento.id_tipo_afastamento').count('TipoAfastamento.nm_tipo_afastamento as qtd').groupBy('TipoAfastamento.nm_tipo_afastamento').select('TipoAfastamento.nm_tipo_afastamento','TipoAfastamento.id_tipo_afastamento');
     return militares;
 }
 
