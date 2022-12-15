@@ -612,4 +612,53 @@ module.exports = {
             .select('*').where('matricula_militar', '=', matricula);
         return res.json({ TempoAnterior: tempo_anterior });
     },
+    async updateRestricao(req, res) {
+        const {id_restricao} = req.params;
+        // id_tipo_restricao: int (opcional)
+        // dt_fim: timestamp segundos (opcional)
+        const { id_tipo_restricao, dt_fim } = req.body;
+        if (!id_tipo_restricao && !dt_fim) {
+            return res.status(400).json({ msg: "Dados obrigatórios não foram preenchidos" });
+        }
+        // id_tipo_restricao deve ser um valor valido
+        if (id_tipo_restricao) {
+            const tipo_restricao = await connection('TipoRestricao').select('*').where('id_tipo_restricao', '=', id_tipo_restricao);
+            if (tipo_restricao.length == 0) {
+                return res.status(400).json({ msg: "Tipo de restrição inválido" });
+            }
+        }
+        // dt_fim deve ser um valor valido
+        // aqui eu poderia verificar se o valor pe posterior a data atual
+        if (dt_fim && dt_fim < 0) {
+            return res.status(400).json({ msg: "Data de fim inválida" });
+        }
+        // militar deve existir
+        let militar = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
+        if (!militar) {
+            return res.status(400).json({ msg: "Restrição não encontrada" });
+        }
+        // verifica se a restrição existe
+        let restricao = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
+        if (!restricao) {
+            return res.status(400).json({ msg: "Restrição não encontrada" });
+        }
+        // atualiza a restrição no banco
+        if(id_tipo_restricao){
+            restricao.id_tipo_restricao = id_tipo_restricao;
+        }
+        if(dt_fim){
+            restricao.dt_fim = dt_fim;
+        }
+        await connection('MilitarRestricao').update(restricao).where('id_restricao', '=', id_restricao);
+        // pega as restrições do militar
+        const restricoes = await connection('MilitarRestricao')
+            .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
+            .select('*')
+            .where('matricula_militar', '=', militar.matricula_militar);
+
+        return res.json({ Restricoes: restricoes });
+        
+       
+
+    }
 }
