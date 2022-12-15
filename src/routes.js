@@ -26,13 +26,22 @@ routes.get('/info/resumo', InfoController.ResumoController.getResumo);
 
 routes.get("/info/idioma", InfoController.IdiomaController.getIdiomas);
 routes.post("/info/idioma", InfoController.IdiomaController.addIdiomas);
+routes.put('/info/idioma/:id_idioma', InfoController.IdiomaController.atualizarIdioma);
+routes.delete('/info/idioma/:id_idioma', InfoController.IdiomaController.deleteIdioma);
 
 routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.post("/info/curso", InfoController.CursoController.createCursos);
+
+routes.get('/info/curso', InfoController.CursoController.getCursos);
+routes.delete('/info/curso/:id_curso', InfoController.CursoController.deleteCurso);
+routes.put('/info/curso/:id_curso', InfoController.CursoController.atualizarCurso);
+
 routes.get('/info/curso/tipo', InfoController.CursoController.getTipoCurso);
 routes.post('/info/curso/tipo', InfoController.CursoController.createTipoCurso);
 routes.delete('/info/curso/tipo/:id', InfoController.CursoController.deleteTipoCurso);
 routes.put('/info/curso/tipo/:id', InfoController.CursoController.updateTipoCurso);
+
+
 
 routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
 routes.post('/info/comportamento', InfoController.ComportamentoController.createComportamento);
