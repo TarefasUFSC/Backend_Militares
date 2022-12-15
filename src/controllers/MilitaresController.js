@@ -202,6 +202,14 @@ module.exports = {
         // o filtro de batalhão é feito com o equals do SQL
         // batalhão e cidade devem ser pegos fazendo uma consulta na tabela de lotação usando um join
         // os parametros podem estar vazios, sto deve ser considerado
+        
+        // primeiro descobre a quantidade total de pessoas, ates de fazer o limit
+        const [count] = await connection('Militares')
+            .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
+            .join("Cidade", "Lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .leftOuterJoin("Batalhao", "Lotacao.id_batalhao", "=", "Batalhao.id_batalhao")
+            .count();
+
 
         const militares = connection('Militares')
             .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
@@ -232,7 +240,7 @@ module.exports = {
                 return res.status(404).json({ msg: "Nenhum militar encontrado" });
             }
             //tem que retornar a quantidade total tb
-            return res.json({ militares: rows });
+            return res.json({ militares: rows, total: count['count(*)'] });
         })
 
 
