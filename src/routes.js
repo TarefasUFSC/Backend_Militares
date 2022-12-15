@@ -14,8 +14,8 @@ routes.put('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresCont
 routes.get('/militares/tempo_anterior/:matricula', MilitaresController.getTempoAnterior);
 routes.delete('/militares/tempo_anterior/:id_militar_tempo_anterior', MilitaresController.deleteTempoAnterior);
 routes.post('/militares/restricao/:matricula', MilitaresController.addRestricao);
-// routes.put('/militares/restricao/:id', MilitaresController.updateRestricao);
-// routes.delete('/militares/restricao/:id', MilitaresController.deleteRestricao);
+routes.put('/militares/restricao/:id_restricao', MilitaresController.updateRestricao);
+routes.delete('/militares/restricao/:id_restricao', MilitaresController.deleteRestricao);
 
 // rotas de Alocação
 routes.post("/alocacao", AlocacaoController.getSugestaoAlocacao); // aqui vai passar os filtros na query
@@ -31,15 +31,25 @@ routes.delete('/info/idioma/:id_idioma', InfoController.IdiomaController.deleteI
 
 routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.post("/info/curso", InfoController.CursoController.createCursos);
+
 routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.delete('/info/curso/:id_curso', InfoController.CursoController.deleteCurso);
 routes.put('/info/curso/:id_curso', InfoController.CursoController.atualizarCurso);
+
 routes.get('/info/curso/tipo', InfoController.CursoController.getTipoCurso);
 routes.post('/info/curso/tipo', InfoController.CursoController.createTipoCurso);
+routes.delete('/info/curso/tipo/:id', InfoController.CursoController.deleteTipoCurso);
+routes.put('/info/curso/tipo/:id', InfoController.CursoController.updateTipoCurso);
 
 
 
 routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
+routes.post('/info/comportamento', InfoController.ComportamentoController.createComportamento);
+routes.put('/info/comportamento/:id', InfoController.ComportamentoController.updateComportamento);
+routes.delete('/info/comportamento/:id', InfoController.ComportamentoController.deleteComportamento);
+
+// routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
+// routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
 
 // isso aqui, como estamos nfalando sobre informações do sistema, diz respeito ao TIPO de tempo anterior
 // então são rotas para listar, adicionar, atualizar e deletar o tipo de tempo anterior
@@ -51,6 +61,8 @@ routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnterio
 
 routes.post("/info/posto", InfoController.PostoController.createPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
+routes.delete('/info/posto/:id', InfoController.PostoController.deletePosto);
+routes.put('/info/posto/:id', InfoController.PostoController.updatePosto);
 
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);
