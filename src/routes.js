@@ -29,11 +29,18 @@ routes.post("/info/idioma", InfoController.IdiomaController.addIdiomas);
 
 routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.post("/info/curso", InfoController.CursoController.createCursos);
-routes.get('/info/curso', InfoController.CursoController.getCursos);
 routes.get('/info/curso/tipo', InfoController.CursoController.getTipoCurso);
 routes.post('/info/curso/tipo', InfoController.CursoController.createTipoCurso);
+routes.delete('/info/curso/tipo/:id', InfoController.CursoController.deleteTipoCurso);
+routes.put('/info/curso/tipo/:id', InfoController.CursoController.updateTipoCurso);
 
 routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
+routes.post('/info/comportamento', InfoController.ComportamentoController.createComportamento);
+routes.put('/info/comportamento/:id', InfoController.ComportamentoController.updateComportamento);
+routes.delete('/info/comportamento/:id', InfoController.ComportamentoController.deleteComportamento);
+
+// routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
+// routes.get('/info/comportamento', InfoController.ComportamentoController.getComportamento);
 
 // isso aqui, como estamos nfalando sobre informações do sistema, diz respeito ao TIPO de tempo anterior
 // então são rotas para listar, adicionar, atualizar e deletar o tipo de tempo anterior
@@ -43,8 +50,10 @@ routes.put('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorCo
 routes.delete('/info/tempo_anterior/:id_tipo_tempo', InfoController.TempoAnteriorController.deleteTempoAnterior);
 
 
-//routes.post("/info/posto", InfoController.PostoController.createPosto);
+routes.post("/info/posto", InfoController.PostoController.createPosto);
 routes.get('/info/posto', InfoController.PostoController.getPostos);
+routes.delete('/info/posto/:id', InfoController.PostoController.deletePosto);
+routes.put('/info/posto/:id', InfoController.PostoController.updatePosto);
 
 
 routes.get('/info/tipo_restricao', InfoController.RestricaoController.getTipoRestricao);

@@ -85,4 +85,24 @@ module.exports = {
         return res.json({ tipo_curso_adicionados: data });
 
     },
+
+    async deleteTipoCurso(req, res){
+        const { id } = req.params;
+        const cursos = await connection('Curso').select('*').where('Curso.id_tipo_curso', '=', id)
+        await connection('Curso').where('Curso.id_tipo_curso', '=', id).del()
+        const tipoCursos = await connection('TipoCurso').select('*').where('TipoCurso.id_tipo_curso', '=', id)
+        await connection('TipoCurso').where('TipoCurso.id_tipo_curso', '=', id).del()
+    
+        return res.json({ tipoCursos, cursos });
+    },
+    
+    async updateTipoCurso(req, res){
+        const { id } = req.params;
+        const updatedInfos = req.body;
+    
+        await connection('TipoCurso').where('TipoCurso.id_tipo_curso', '=', id).update(updatedInfos)
+        const updatedTipoCurso = await connection('TipoCurso').where('TipoCurso.id_tipo_curso', '=', id).select('*')
+    
+        return res.status(201).json({ updatedTipoCurso });
+    }
 };
