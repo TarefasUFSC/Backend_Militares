@@ -626,7 +626,7 @@ module.exports = {
         return res.json({ TempoAnterior: tempo_anterior });
     },
     async updateRestricao(req, res) {
-        const {id_restricao} = req.params;
+        const {id_militar_restricao} = req.params;
         // id_tipo_restricao: int (opcional)
         // dt_fim: timestamp segundos (opcional)
         const { id_tipo_restricao, dt_fim } = req.body;
@@ -645,13 +645,9 @@ module.exports = {
         if (dt_fim && dt_fim < 0) {
             return res.status(400).json({ msg: "Data de fim inválida" });
         }
-        // militar deve existir
-        let militar = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
-        if (!militar) {
-            return res.status(400).json({ msg: "Restrição não encontrada" });
-        }
+        
         // verifica se a restrição existe
-        let restricao = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
+        let restricao = await connection('MilitarRestricao').select('*').where('id_militar_restricao', '=', id_militar_restricao).first();
         if (!restricao) {
             return res.status(400).json({ msg: "Restrição não encontrada" });
         }
@@ -662,12 +658,12 @@ module.exports = {
         if(dt_fim){
             restricao.dt_fim = dt_fim;
         }
-        await connection('MilitarRestricao').update(restricao).where('id_restricao', '=', id_restricao);
+        await connection('MilitarRestricao').update(restricao).where('id_militar_restricao', '=', id_militar_restricao);
         // pega as restrições do militar
         const restricoes = await connection('MilitarRestricao')
             .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
             .select('*')
-            .where('matricula_militar', '=', militar.matricula_militar);
+            .where('matricula_militar', '=', restricao.matricula_militar);
 
         return res.json({ Restricoes: restricoes });
         
@@ -675,14 +671,14 @@ module.exports = {
 
     },
     async deleteRestricao(req, res) {
-        const {id_restricao} = req.params;
+        const {id_militar_restricao} = req.params;
         // verifica se a restrição existe
-        let restricao = await connection('MilitarRestricao').select('*').where('id_restricao', '=', id_restricao).first();
+        let restricao = await connection('MilitarRestricao').select('*').where('id_militar_restricao', '=', id_militar_restricao).first();
         if (!restricao) {
             return res.status(400).json({ msg: "Restrição não encontrada" });
         }
         // deleta a restrição
-        await connection('MilitarRestricao').delete().where('id_restricao', '=', id_restricao);
+        await connection('MilitarRestricao').delete().where('id_militar_restricao', '=', id_militar_restricao);
         // pega as restrições do militar
         const restricoes = await connection('MilitarRestricao')
             .join('TipoRestricao', 'MilitarRestricao.id_tipo_restricao', '=', 'TipoRestricao.id_tipo_restricao')
