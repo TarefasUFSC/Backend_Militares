@@ -214,6 +214,7 @@ module.exports = {
         const militares = connection('Militares')
             .join('Lotacao', 'Militares.id_lotacao', '=', 'Lotacao.id_lotacao')
             .join("Cidade", "Lotacao.id_cidade", "=", "Cidade.id_cidade")
+            .join("Posto", "Militares.id_posto", "=", "Posto.id_posto")
             .leftOuterJoin("Batalhao", "Lotacao.id_batalhao", "=", "Batalhao.id_batalhao")
             .select('*')
             .limit(qtd)
